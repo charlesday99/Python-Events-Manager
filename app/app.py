@@ -2,6 +2,7 @@ from flask import redirect, url_for, render_template, abort, send_from_directory
 from flask import Flask
 
 from gevent.pywsgi import WSGIServer
+import events
 import json
 import os
 
@@ -12,11 +13,7 @@ app.debug = False
 
 
 #Global variables
-ICON_LIST = {}
-ICON_PATH = os.path.join('static', 'icons')
-ROTATE_VALUES = {0,90,180,270}
-CURRENT_ROTATION = 0
-LOW_LIGHT = False
+EventsDB = events.EventsDB()
 
 
 #Landing page
