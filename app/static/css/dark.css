@@ -1,0 +1,34 @@
+html, body {
+	color: white;
+	background-color: #191919;
+}
+
+body {
+	background-image: url("/img/lines.png");
+}
+
+#main {
+	background-color: #212121;
+	border-left-color: #00cc00;
+}
+
+.link {
+	background-color: 	#00cc00;
+}
+
+.text a {
+	color: #00cc00;
+}
+
+.dropdown {
+	background-color: #212121;
+	color: white;
+}
+
+.scroller::-webkit-scrollbar-thumb {
+	background: #3c3c3c; 
+}
+
+.scroller::-webkit-scrollbar-thumb:hover {
+	background: #505050; 
+}

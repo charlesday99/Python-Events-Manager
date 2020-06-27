@@ -1,0 +1,16 @@
+@font-face {
+	font-family: "Sans";
+	src: url(fonts/google-sans.ttf);
+}
+
+@font-face {
+	font-family: "Sans";
+	src: url(fonts/google-sans-italic.ttf);
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Sans";
+	src: url(fonts/google-sans-bold.ttf);
+	font-weight: bold;
+}
