@@ -255,9 +255,31 @@ def clean_querystring(request_args, *keys_to_remove, **new_values):
     querystring.update(new_values)
     return urllib.urlencode(querystring)
 
+
+#Handle 400 Error
+@app.errorhandler(400)
+def error_400(e):
+    return render_template('error.html', error_code=400,
+        error_info="Invalid request, try again with different values!"),400
+
+#Handle 404 Error
 @app.errorhandler(404)
-def not_found(exc):
-    return Response('<h3>Not found</h3>'), 404
+def error_404(e):
+    return render_template('error.html', error_code=404,
+        error_info="The file/service was not found, try again!"),404
+
+#Handle 418 Error
+@app.errorhandler(418)
+def error_418(e):
+    return render_template('error.html', error_code=418,
+        error_info="I'm a teapot. This server is a teapot, not a coffee machine."),418
+
+#Handle 500 Error
+@app.errorhandler(500)
+def error_500(e):
+    return render_template('error.html', error_code=500,
+    error_info="Something on the server went very wrong, Sorry!"),500
+
 
 #Start point
 if __name__ == "__main__":
