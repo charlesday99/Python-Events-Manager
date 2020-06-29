@@ -6,8 +6,8 @@
 
 {% block content %}
   {% if session.logged_in %}
-    <button href="{{ url_for('edit', slug=entry.slug) }}">Edit event</button>
-    <button href="{{ url_for('edit', slug=entry.slug) }}">Delete event</button>
+    <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Edit event</button>
+    <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Delete event</button>
   {% endif %}
 
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
