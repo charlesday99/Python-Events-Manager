@@ -14,6 +14,7 @@ from micawber.cache import Cache as OEmbedCache
 from peewee import *
 from playhouse.flask_utils import FlaskDB, get_object_or_404, object_list
 from playhouse.sqlite_ext import *
+from gevent.pywsgi import WSGIServer
 
 
 # Blog configuration values.
@@ -37,8 +38,9 @@ SECRET_KEY = 'shhh, secret!'
 SITE_WIDTH = 800
 
 # Create a Flask WSGI app and configure it using values from the module.
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='')
 app.config.from_object(__name__)
+app.degub = True
 
 # FlaskDB is a wrapper for a peewee database that sets up pre/post-request
 # hooks for managing database connections.
@@ -257,11 +259,8 @@ def clean_querystring(request_args, *keys_to_remove, **new_values):
 def not_found(exc):
     return Response('<h3>Not found</h3>'), 404
 
-def main():
-    database.create_tables([Entry, FTSEntry], safe=True)
-    app.run(debug=True)
-
-if __name__ == '__main__':
-    main()
-
-# lets do a silly one!
+#Start point
+if __name__ == "__main__":
+    http_server = WSGIServer(('0.0.0.0', 80), app)
+    print("Loaded as HTTP Server on port 80, running forever:")
+    http_server.serve_forever()
