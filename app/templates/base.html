@@ -31,8 +31,7 @@
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             {% if session.logged_in %}
-              <li><a href="{{ url_for('drafts') }}">Drafts</a></li>
-              <li><a href="{{ url_for('logout') }}">Log out</a></li>
+              <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
             {% endif %}
             {% block extra_header %}{% endblock %}
           </ul>

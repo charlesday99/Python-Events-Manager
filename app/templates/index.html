@@ -5,12 +5,6 @@
 {% block content_title %}{% if search %}Search "{{ search }}"{% else %}Events{% endif %}{% endblock %}
 
 {% block content %}
-
-  {% if session.logged_in %}
-    <button class="btn btn-primary" onclick="window.location.href='{{ url_for('create') }}'">Create Event</button>
-    
-  {% endif %}
-
   {% for entry in object_list %}
     <h3>
       <a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}">

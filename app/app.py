@@ -221,6 +221,11 @@ def _create_or_edit(entry, template):
 def create():
     return _create_or_edit(Entry(title='', content=''), 'create.html')
 
+@app.route('/dashboard/')
+@login_required
+def dashboard():
+    return render_template('dashboard.html')
+
 @app.route('/drafts/')
 @login_required
 def drafts():
