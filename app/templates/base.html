@@ -73,9 +73,22 @@
     </div>
   
 	<script>
+		
   		var quill = new Quill('#editor', {
     	theme: 'snow'
   		});
+		
+		var form = document.querySelector('#submitForm');
+		form.onsubmit = function() {
+		  // Populate hidden form on submit
+		  var content = document.querySelector('#content');
+		  content.value = quill.root.innerHTML;
+
+		  console.log(content.value);
+  
+		  return true;
+		};
+		
 	</script>
 	  
   </body>
