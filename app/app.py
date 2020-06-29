@@ -36,7 +36,6 @@ SECRET_KEY = 'shhh, secret!'
 # embedded objects with maxwidth=800.
 SITE_WIDTH = 800
 
-
 # Create a Flask WSGI app and configure it using values from the module.
 app = Flask(__name__)
 app.config.from_object(__name__)
