@@ -4,33 +4,6 @@
 
 {% block content_title %}Event Editor{% endblock %}
 
-{% block extra_head %}<link href="/css/quill.snow.css" rel="stylesheet">{% endblock %}
-
-{% block extra_scripts %}<script src="/js/quill.js"></script>{% endblock %}
-
 {% block form_action %}{{ url_for('edit', slug=entry.slug) }}{% endblock %}
 
 {% block save_button %}Save changes{% endblock %}
-
-{% block final_scripts %}
-    <script>
-        var quill = new Quill('#editor', {
-        theme: 'snow',
-        modules: {
-            clipboard: {
-                matchVisual: false
-            }
-        }
-        });
-
-        quill.clipboard.dangerouslyPasteHTML(quill.getText());
-
-        var form = document.querySelector('#submitForm');
-        form.onsubmit = function() {
-        // Populate hidden form on submit
-        var content = document.querySelector('#content');
-        content.value = quill.root.innerHTML;
-        return true;
-        };
-    </script>
-{% endblock %}
