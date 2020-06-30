@@ -75,8 +75,15 @@
 	<script>
     
     var quill = new Quill('#editor', {
-      theme: 'snow'
+      theme: 'snow',
+      modules: {
+        clipboard: {
+            matchVisual: false
+        }
+     }
     });
+    
+    quill.clipboard.dangerouslyPasteHTML(quill.getText());
 
     var form = document.querySelector('#submitForm');
     form.onsubmit = function() {
