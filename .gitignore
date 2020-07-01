@@ -1,3 +1,6 @@
 *.db
 *.pyc
 *.model
+/app/static/img/*.png
+/app/static/img/*.jpg
+/app/static/img/*.jpeg

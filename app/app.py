@@ -1,8 +1,9 @@
-import datetime
 import functools
+import datetime
+import urllib
+import PIL
 import os
 import re
-import urllib
 
 from flask import (Flask, flash, Markup, redirect, render_template, request,
                    Response, session, url_for)
@@ -284,6 +285,18 @@ def error_418(e):
 def error_500(e):
     return render_template('error.html', error_code=500,
     error_info="Something on the server went very wrong, Sorry!"),500
+
+
+@app.route('/images/',methods=['GET', 'POST'])
+@login_required
+def image_manager():
+    if request.method == 'POST':
+        file = request.files['file']
+        file.save(os.path.join(APP_DIR,"static","img",file.filename))
+        flash('Uploaded the image!', 'success')
+        return render_template('images.html')
+    else:
+        return render_template('images.html')
 
 
 #Start point

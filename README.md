@@ -8,3 +8,4 @@ micawber
 pygments
 markdown
 peewee
+PIL
