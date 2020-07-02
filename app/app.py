@@ -1,8 +1,8 @@
+from PIL import Image
 import functools
 import datetime
 import urllib
 import glob
-import PIL
 import os
 import re
 
@@ -294,12 +294,31 @@ def image_manager():
     image_path = os.path.join(APP_DIR,"static","img")
 
     if request.method == 'POST':
+        #Open the image from the POST request
         file = request.files['file']
-        file.save(os.path.join(image_path,file.filename))
+        img = Image.open(file)
+
+        #Convert to RGB if a PNG is uploaded
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
+        #Extract the file name
+        filename = file.filename.split(".")[0] + ".jpg"
+
+        #Save the image as a JPEG
+        img.save(os.path.join(image_path,filename))
+
+        #Generate and save a small thumbnail version
+        img.thumbnail((128,128))
+        img.save(os.path.join(image_path,"thumbnails",filename))
+        
+        #Return a success message
         flash('Upload successful!', 'success')
 
+    #Find all the images in the thumbnails folder and pass
+    #the paths to the template
     images = []
-    for path in glob.glob(os.path.join(image_path, "*.jpg")):
+    for path in glob.glob(os.path.join(image_path,"thumbnails", "*.jpg")):
         images.append(path.split("static")[1])
     return render_template('images.html', images=images)
 
