@@ -6,7 +6,9 @@
     border-radius: 0;
     -webkit-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
-    width: 170px;
+    width: 137px;
+    height: 137px;
+    object-fit: cover;
 }
 
 .photo-grid {

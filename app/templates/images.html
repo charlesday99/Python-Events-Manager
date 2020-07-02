@@ -6,6 +6,8 @@
 
 {% block extra_head %}<link href="/css/photo-grid.css" rel="stylesheet">{% endblock %}
 
+{% block extra_scripts %}<script src="/js/photo-grid.js" type="text/javascript"></script>{% endblock %}
+
 {% block content %}
 	<h3>Upload</h3>
 	<form id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
@@ -16,14 +18,14 @@
 	
 	<h3>Library</h3>
 	<div id="photo-grid" class="photo-grid">
-		{% for item in images %}
-    		<img src="{{ item }}" class="photo-cell">
+		{% for id, path in images.items() %}
+    		<img id="{{ id }}" src="{{ path }}" class="photo-cell">
 		{% endfor %}
 	</div>
 {% endblock %}
 
 {% block final_scripts %}
 	<script>
-		console.log("Hello World!");
+		addImageClickers();
 	</script>
 {% endblock %}
