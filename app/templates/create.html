@@ -43,23 +43,42 @@
 
 {% block final_scripts %}
     <script>
-        var quill = new Quill('#editor', {
-        theme: 'snow',
-        modules: {
-            clipboard: {
-                matchVisual: false
-            }
-        }
-        });
+      var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 
-        quill.clipboard.dangerouslyPasteHTML(quill.getText());
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
 
-        var form = document.querySelector('#submitForm');
-        form.onsubmit = function() {
-        // Populate hidden form on submit
-        var content = document.querySelector('#content');
-        content.value = quill.root.innerHTML;
-        return true;
-        };
+        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [ 'link', 'image', 'video', 'formula' ],          // add's image support
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+
+        ['clean']                                         // remove formatting button
+      ];
+      
+      var quill = new Quill('#editor', {
+      theme: 'snow',
+      modules: {
+          clipboard: {
+              matchVisual: false
+          },
+          toolbar: toolbarOptions
+      }
+      });
+
+      quill.clipboard.dangerouslyPasteHTML(quill.getText());
+
+      var form = document.querySelector('#submitForm');
+      form.onsubmit = function() {
+      // Populate hidden form on submit
+      var content = document.querySelector('#content');
+      content.value = quill.root.innerHTML;
+      return true;
+      };
     </script>
 {% endblock %}
