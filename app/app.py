@@ -1,6 +1,7 @@
 import functools
 import datetime
 import urllib
+import glob
 import PIL
 import os
 import re
@@ -12,10 +13,10 @@ from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
 from micawber import bootstrap_basic, parse_html
 from micawber.cache import Cache as OEmbedCache
-from peewee import *
 from playhouse.flask_utils import FlaskDB, get_object_or_404, object_list
 from playhouse.sqlite_ext import *
 from gevent.pywsgi import WSGIServer
+from peewee import *
 
 
 # Blog configuration values.
@@ -41,7 +42,7 @@ SITE_WIDTH = 800
 # Create a Flask WSGI app and configure it using values from the module.
 app = Flask(__name__,static_url_path='')
 app.config.from_object(__name__)
-app.degub = True
+app.debug = False
 
 # FlaskDB is a wrapper for a peewee database that sets up pre/post-request
 # hooks for managing database connections.
@@ -290,13 +291,17 @@ def error_500(e):
 @app.route('/images/',methods=['GET', 'POST'])
 @login_required
 def image_manager():
+    image_path = os.path.join(APP_DIR,"static","img")
+
     if request.method == 'POST':
         file = request.files['file']
-        file.save(os.path.join(APP_DIR,"static","img",file.filename))
-        flash('Uploaded the image!', 'success')
-        return render_template('images.html')
-    else:
-        return render_template('images.html')
+        file.save(os.path.join(image_path,file.filename))
+        flash('Upload successful!', 'success')
+
+    images = []
+    for path in glob.glob(os.path.join(image_path, "*.jpg")):
+        images.append(path.split("static")[1])
+    return render_template('images.html', images=images)
 
 
 #Start point

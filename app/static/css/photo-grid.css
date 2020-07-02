@@ -1,0 +1,15 @@
+.photo-cell {
+    padding: 4px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    width: 170px;
+}
+
+.photo-grid {
+    max-height: 800px;
+    overflow-y: auto;
+}

@@ -4,18 +4,25 @@
 
 {% block content_title %}Image Manager{% endblock %}
 
+{% block extra_head %}<link href="/css/photo-grid.css" rel="stylesheet">{% endblock %}
+
 {% block content %}
+	<h3>Upload</h3>
 	<form id="uploadbanner" enctype="multipart/form-data" method="post" action="#">
 		<input type="file" id="img" name="file" accept="image/*">
-		<input type="submit" value="submit" id="submit" />
+		<input type="submit" value="Submit" id="submit" class="btn btn-primary">
 	</form>
 	
-	<div class="photo-grid">
+	<h3>Library</h3>
+	<div id="photo-grid" class="photo-grid">
+		{% for item in images %}
+    		<img src="{{ item }}" class="photo-cell">
+		{% endfor %}
 	</div>
 {% endblock %}
 
 {% block final_scripts %}
 	<script>
-	console.log("Hello World!");
+		console.log("Hello World!");
 	</script>
 {% endblock %}
