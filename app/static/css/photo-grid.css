@@ -12,8 +12,14 @@
 }
 
 .photo-grid {
-    max-height: 800px;
+    max-height: 700px;
     overflow-y: auto;
+}
+
+.photo-manager {
+    border: 1px solid #ddd;
+    padding: 3px;
+    border-radius: 8px;
 }
 
 .photo-grid::-webkit-scrollbar {
@@ -27,4 +33,18 @@
 
 .photo-grid::-webkit-scrollbar-thumb:hover {
 	background: #a6a6a6; 
+}
+
+.photo-preview {
+    visibility: hidden;
+}
+
+.photo-preview img {
+    width: 90%;
+    object-fit: cover;
+    height: 400px;
+    margin: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }

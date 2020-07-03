@@ -17,10 +17,18 @@
 	</form>
 	
 	<h3>Library</h3>
-	<div id="photo-grid" class="photo-grid">
-		{% for id, path in images.items() %}
-    		<img id="{{ id }}" src="{{ path }}" class="photo-cell">
-		{% endfor %}
+	<button id="selectBtn" class="btn btn-primary" onclick="selectClicked()">Select</button>
+	<button id="deleteBtn" class="btn" onclick="deleteClicked()">Delete</button>
+
+	<div id="photo-manager" class="photo-manager">
+		<div id="photo-grid" class="photo-grid">
+			{% for id, path in images.items() %}
+				<img id="{{ id }}" src="{{ path }}" class="photo-cell">
+			{% endfor %}
+		</div>
+		<span class="photo-preview" id="photo-preview">
+			<img id="photo-preview-image" src="">
+		</span>
 	</div>
 {% endblock %}
 
