@@ -1,53 +1,74 @@
 <!doctype html>
 <html>
   <head>
+    
     <title>{% block title %}{% endblock %}</title>
-    <meta name="description" content="Event page.">
+    
+    <meta name="description" content="Home Page">
     <meta charset="utf-8">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#000000">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel=stylesheet type=text/css href="/css/hilite.css" />
-    <link rel=stylesheet type=text/css href="/css/blog.min.css" />
+    <meta property='og:image' content="/images/me-cropped2.png"/>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" />
+    <link rel=stylesheet type=text/css href="/css/stylesheet.css" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/css/quill.snow.css" rel="stylesheet">
 	  
     {% block extra_head %}{% endblock %}
 
-    <script src="/js/jquery-1.11.0.min.js" type="text/javascript"></script>
-    <script src="/js/bootstrap.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+      <script src="/js/quill.js"></script>
 
     {% block extra_scripts %}{% endblock %}
+    
   </head>
 
   <body>
-    <div class="navbar navbar-default navbar-static-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="{{ url_for('index') }}">Event Manager</a>
-        </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            {% if session.logged_in %}
-              <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-            {% endif %}
-            {% block extra_header %}{% endblock %}
-          </ul>
-          {% block search_bar %}
-            <form action="{{ url_for('index') }}" class="navbar-form navbar-right" id="search-form" method="get" role="search">
-              <div class="form-group">
-                <input class="form-control" name="q" placeholder="Search" type="text" value="{% if search %}{{ search }}{% endif %}">
-              </div>
-            </form>
-          {% endblock %}
-        </div>
+    
+    <nav class="custom-nav navbar navbar-expand-lg navbar-dark">
+      <a class="navbar-brand" href="{{ url_for('index') }}">Kane Miles</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('blog') }}">Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('about') }}">About Me</a>
+          </li>
+          
+          {% if session.logged_in %}
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('dashboard') }}">Dashboard</a>
+            </li>
+          {% endif %}
+          
+          {% block extra_header %}{% endblock %}
+          
+        </ul>
+        {% block search_bar %}
+        <form action="{{ url_for('blog') }}" class="form-inline ml-auto" id="search-form" method="get" role="search">
+          <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search" value="{% if search %}{{ search }}{% endif %}">
+        </form>
+        {% endblock %}
+        
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a class="nav-link" href="https://www.linkedin.com/in/kane-miles-dev/"><i class="fa fa-linkedin fa-lg"></i></a>
+          </li>
+        </ul>
+        
       </div>
-    </div>
+    </nav>
 
     <div class="container">
       {% for category, message in get_flashed_messages(with_categories=true) %}
@@ -58,20 +79,36 @@
       {% endfor %}
 
       {% block page_header %}
-        <div class="page-header">
-          <h1>{% block content_title %}{% endblock %}</h1>
-        </div>
+        <h3 class="content-title" >{% block content_title %}{% endblock %}</h3>
       {% endblock %}
 
       {% block content %}{% endblock %}
 
       <footer>
         <hr />
-        <p>Event Manager &copy; 2020</p>
+        <p>Kane Miles &copy; 2020</p>
       </footer>
     </div>
     
-    {% block final_scripts %}{% endblock %}
+    {% block final_scripts %}
+      <script>
+        
+        var buttons = document.getElementsByClassName("af-btn");
+        
+        for (i = 0; i < buttons.length; i++) {
+          let button = buttons[i];
+          buttons[i].onclick = function () {
+            var trans_value = getComputedStyle(button).getPropertyValue("opacity");
+            console.log(trans_value);
+            if(trans_value == 1){
+              return true;
+            }
+            return false;
+          }
+        }
+
+      </script>
+    {% endblock %}
 	
   </body>
 </html>

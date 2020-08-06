@@ -34,8 +34,8 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-primary" type="submit">{% block save_button %}Create{% endblock %}</button>
-        <a class="btn btn-default" href="{{ url_for('index') }}">Cancel</a>
+        <button class="btn btn-primary site-btn" type="submit">{% block save_button %}Create{% endblock %}</button>
+        <a class="btn btn-default site-btn" href="{{ url_for('index') }}">Cancel</a>
       </div>
     </div>
   </form>
@@ -43,7 +43,8 @@
 
 {% block final_scripts %}
     <script>
-      var toolbarOptions = [
+		
+        var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 
         [{ 'header': 1 }, { 'header': 2 }],               // custom button values
@@ -59,26 +60,27 @@
         [{ 'align': [] }],
 
         ['clean']                                         // remove formatting button
-      ];
-      
-      var quill = new Quill('#editor', {
-      theme: 'snow',
-      modules: {
+        ];
+
+        var quill = new Quill('#editor', {
+        theme: 'snow',
+        modules: {
           clipboard: {
-              matchVisual: false
+            matchVisual: false
           },
           toolbar: toolbarOptions
-      }
-      });
+        }
+        });
 
-      quill.clipboard.dangerouslyPasteHTML(quill.getText());
+        quill.clipboard.dangerouslyPasteHTML(quill.getText());
 
-      var form = document.querySelector('#submitForm');
-      form.onsubmit = function() {
-      // Populate hidden form on submit
-      var content = document.querySelector('#content');
-      content.value = quill.root.innerHTML;
-      return true;
-      };
+        var form = document.querySelector('#submitForm');
+        form.onsubmit = function() {
+        // Populate hidden form on submit
+        var content = document.querySelector('#content');
+        content.value = `<div class="post_content">
+        <div class="ql-editor">` + quill.root.innerHTML + `</div></div>`;
+        return true;
+        };
     </script>
 {% endblock %}

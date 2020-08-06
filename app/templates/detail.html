@@ -5,12 +5,10 @@
 {% block content_title %}{{ entry.title }}{% endblock %}
 
 {% block content %}
-  {% if session.logged_in %}
-    <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Edit event</button>
-    <button class="btn btn-primary" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Delete event</button>
-  {% endif %}
-
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
-
   {{ entry.html_content }}
+  {% if session.logged_in %}
+    <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Edit Post</button>
+    <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Delete Post</button>
+  {% endif %}
 {% endblock %}

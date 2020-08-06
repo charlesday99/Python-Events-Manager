@@ -1,10 +1,8 @@
-from PIL import Image
-import functools
 import datetime
-import urllib
-import glob
+import functools
 import os
 import re
+import urllib
 
 from flask import (Flask, flash, Markup, redirect, render_template, request,
                    Response, session, url_for)
@@ -13,10 +11,12 @@ from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
 from micawber import bootstrap_basic, parse_html
 from micawber.cache import Cache as OEmbedCache
+from peewee import *
 from playhouse.flask_utils import FlaskDB, get_object_or_404, object_list
 from playhouse.sqlite_ext import *
 from gevent.pywsgi import WSGIServer
-from peewee import *
+
+from passlib.hash import sha256_crypt
 
 
 # Blog configuration values.
@@ -24,7 +24,7 @@ from peewee import *
 # You may consider using a one-way hash to generate the password, and then
 # use the hash again in the login view to perform the comparison. This is just
 # for simplicity.
-ADMIN_PASSWORD = 'secret'
+HASHED_PASS = "$5$rounds=535000$oOmNfvkTksDveUyk$lUWpsYX86iNsJuBcVQ1kr0ZkWVbtF1A2Lv7v76P/pzA"
 APP_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # The playhouse.flask_utils.FlaskDB object accepts database URL configuration.
@@ -42,7 +42,7 @@ SITE_WIDTH = 800
 # Create a Flask WSGI app and configure it using values from the module.
 app = Flask(__name__,static_url_path='')
 app.config.from_object(__name__)
-app.debug = False
+app.degub = True
 
 # FlaskDB is a wrapper for a peewee database that sets up pre/post-request
 # hooks for managing database connections.
@@ -160,7 +160,7 @@ def login():
         password = request.form.get('password')
         # TODO: If using a one-way hash, you would also hash the user-submitted
         # password and do the comparison on the hashed versions.
-        if password == app.config['ADMIN_PASSWORD']:
+        if sha256_crypt.verify(password, app.config['HASHED_PASS']):
             session['logged_in'] = True
             session.permanent = True  # Use cookie to store session.
             flash('You are now logged in.', 'success')
@@ -178,6 +178,10 @@ def logout():
 
 @app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/blog/')
+def blog():
     search_query = request.args.get('q')
     if search_query:
         query = Entry.search(search_query)
@@ -189,10 +193,19 @@ def index():
     # the docs:
     # http://docs.peewee-orm.com/en/latest/peewee/playhouse.html#object_list
     return object_list(
-        'index.html',
+        'blog.html',
         query,
         search=search_query,
         check_bounds=False)
+
+@app.route('/projects/')
+def projects():
+    return render_template('projects.html')
+
+@app.route('/about/')
+def about():
+    return render_template('about.html')
+
 
 def _create_or_edit(entry, template):
     if request.method == 'POST':
@@ -232,7 +245,7 @@ def dashboard():
 @login_required
 def drafts():
     query = Entry.drafts().order_by(Entry.timestamp.desc())
-    return object_list('index.html', query, check_bounds=False)
+    return object_list('blog.html', query, check_bounds=False)
 
 @app.route('/<slug>/')
 def detail(slug):
@@ -286,44 +299,6 @@ def error_418(e):
 def error_500(e):
     return render_template('error.html', error_code=500,
     error_info="Something on the server went very wrong, Sorry!"),500
-
-
-@app.route('/images/',methods=['GET', 'POST'])
-@login_required
-def image_manager():
-    image_path = os.path.join(APP_DIR,"static","img")
-
-    if request.method == 'POST':
-        try:
-            #Open the image from the POST request
-            file = request.files['file']
-            img = Image.open(file)
-
-            #Convert to RGB if a PNG is uploaded
-            if img.mode in ("RGBA", "P"):
-                img = img.convert("RGB")
-
-            #Extract the file name
-            filename = file.filename.split(".")[0] + ".jpg"
-
-            #Save the image as a JPEG
-            img.save(os.path.join(image_path,filename))
-
-            #Generate and save a small thumbnail version
-            img.thumbnail((140,140))
-            img.save(os.path.join(image_path,"thumbnails",filename))
-        
-            #Return a success message
-            flash('Upload successful', 'success')
-        except:
-            flash('Upload failed', 'danger')
-
-    #Find all the images in the thumbnails folder and pass
-    #the paths to the template
-    images = {}
-    for path in glob.glob(os.path.join(image_path,"thumbnails", "*.jpg")):
-        images[path.split("thumbnails")[1][1:]] = path.split("static")[1]
-    return render_template('images.html', images=images)
 
 
 #Start point

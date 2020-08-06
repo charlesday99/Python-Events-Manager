@@ -1,0 +1,167 @@
+@font-face { font-family: lato; src: url('/fonts/Lato-Regular.ttf'); }
+
+
+.fa-linkedin {
+	margin-left:10px;
+}
+
+#me-image img {
+	margin-right: 25px;
+	border-radius: 10px;
+}
+
+@media (max-width: 800px) {
+	#me-image img {
+		display: none;
+	}
+}
+
+.image-text {
+	display: inline-block;
+}
+
+.content-title {
+	margin-top: 50px;
+	margin-bottom: 30px;
+}
+
+.page-header {
+	text-align: center;
+	margin-bottom: 40px;
+}
+
+.post-links, a {
+	color: #c40000;
+}
+
+.post-links, a:hover {
+	color: #de1616;
+}
+
+.index-img {
+	margin-bottom: 20px;
+}
+
+.jumbotron {
+	font-family: lato, sans-serif;
+	text-align: center;
+	background-color: #FFF;
+}
+
+p, h3, h5 {
+	font-family: lato, sans-serif;
+}
+
+p {
+	font-size: 110%;
+}
+
+.navbar {
+	color: #8b0000;
+	background-color: #8b0000;
+}
+
+.site-btn {
+	color: #FFF;
+	background-color: #c40000;
+	border-color: #c40000;
+	box-shadow: 0 0 0 0rem rgba(222, 22, 22, 0.25);
+}
+
+.site-btn:hover, .af-btn:hover, .af-btn:active {
+	color: #FFF;
+	background-color: #de1616 !important;
+	border-color: #de1616 !important;
+	box-shadow: 0 0 0 0rem rgba(222, 22, 22, 0.25) !important;
+}
+
+.proj-title {
+	margin-bottom: 15px;
+}
+
+.image-container {
+    position: relative;
+	margin-bottom: 30px;
+	box-shadow: 2px 5px 8px 1px #888888;
+}
+
+.proj-img {
+	width: 100%;
+	object-fit: fill;
+}
+
+.after {
+	font-family: lato, sans-serif;
+	padding: 20px 20px 20px 20px;
+}
+
+.af-btn {
+	color: #FFF;
+	position: absolute;
+	display: none;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-bottom: 20px;
+	background-color: #c40000;
+	border-color: #c40000;
+	box-shadow: 0 0 0 0rem rgba(222, 22, 22, 0.25);
+}
+
+.image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    color: #FFF;
+	text-align: center;
+}
+
+.image-container:hover .after {
+    display: block;
+    background: rgba(0, 0, 0, .8);
+}
+
+.image-container:hover .af-btn {
+	display: block;
+}
+
+.fade-in {
+animation: fadeIn ease 0.5s;
+-webkit-animation: fadeIn ease 0.5s;
+-moz-animation: fadeIn ease 0.5s;
+-o-animation: fadeIn ease 0.5s;
+-ms-animation: fadeIn ease 0.5s;
+}
+@keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+.post_content .ql-editor {
+	padding: 0px 0px 0px 0px;
+}
+
+

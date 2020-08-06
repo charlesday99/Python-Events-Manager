@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+	<h3 class="page-header">About Me</h3>
+	
+	<div class="image-text">
+		<p id="me-image" class="pull-left mr-2"><img src="/images/me-cropped2.png" border="1px"></p>
+		<p>In regards to technology, I guess you can say that I have always been a little bit too optimistic.
+		This was particularly evident at the age of 13 when I was unshakeably convinced that I could build a
+		working satellite with nothing more than some junk from the recycling center, a raspberry pi, and a patient
+		Step Dad with some DIY experience. Unfortunately, I was unable to convince NASA to help me launch my satellite, 
+		however, my desire to build great things with technology has always stuck with me.</p>
+		<p>I have been programming since 2013, which is the year I came across <a href="https://www.youtube.com/user/thenewboston">TheNewBoston's</a> Python tutorials on YouTube.
+		Despite not being the greatest set of Python tutorials available, they were what gave me a rudimentary understanding
+		of many basic programming concepts. Since then, I have gained experience with a wide range of programming languages,
+		including Python, Java, Kotlin, C++, C, Haskell, and more. Just a few of the projects in which I made use of these languages can be found <a href="{{ url_for('projects') }}">here.</a></p>
+		<p>In July 2020, I graduated from Swansea University with a BSc (Hons) in Software Engineering. Next year, I plan on
+		completing an MSc by Research course in Computer Science, so that I can further develop my undergraduate dissertation project related to
+		Natural Language Processing / Text Simplification. Alongside programming, I enjoy travelling, reading, scrabble, and Reese's peanut butter cups.
+		I also like to run, however, the peanut butter cups tend to negate any progress. Oh well. ¯\_(ツ)_/¯</p>
+	</div>
+
+{% endblock %}

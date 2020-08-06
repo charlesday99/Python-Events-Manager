@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+	<div class="container">
+		
+	  <h3 class="page-header">All Projects</h3>
+	  <div class="row">
+		<div class="col-lg-4 col-md-6 text-center">
+		  <h5 class="proj-title">NovoLS</h5>
+		  <div class="image-container">
+			<img class="proj-img" src="/images/novols.jpg" alt="Novo-LS">
+			<div class="after fade-in">An unsupervised text simplification web service developed using Python.</div>
+			<a href="{{ url_for('detail', slug='novols-an-unsupervised-text-simplification-web-app') }}" type="button" class="btn af-btn fade-in">Learn More</a>
+		  </div>
+		</div>
+		<div class="col-lg-4 col-md-6 text-center">
+		  <h5 class="proj-title">TrackTrack</h5>
+		  <div class="image-container">
+			<img class="proj-img" src="/images/tracktrack.jpg" alt="TrackTrack">
+			<div class="after fade-in">A Pokemon Go inspired song guessing game developed using Kotlin.</div>
+			<a href="{{ url_for('detail', slug='tracktrack-a-pokemon-go-esque-song-guessing-game') }}" type="button" class="btn af-btn fade-in">Learn More</a>  
+		  </div>
+		</div>
+		<div class="col-lg-4 col-md-6 text-center">
+		  <h5 class="proj-title">Adara</h5>
+		  <div class="image-container">
+			<img class="proj-img" src="/images/adara.png" alt="Adara">
+			<div class="after fade-in">An virtual assistant project developed using Python.</div>
+			<a href="{{ url_for('detail', slug='adara-a-simple-desktop-virtual-assistant') }}" type="button" class="btn af-btn fade-in">Learn More</a>
+		  </div>
+		</div>
+		<div class="col-lg-4 col-md-6 text-center">
+		  <h5 class="proj-title">AQADo</h5>
+		  <div class="image-container">
+			<img class="proj-img" src="/images/aqado.png" alt="Adara">
+			<div class="after fade-in">A turn-based board game developed using Python.</div>
+			<a href="{{ url_for('detail', slug='aqado-a-turn-based-board-game') }}" type="button" class="btn af-btn fade-in">Learn More</a>
+		  </div>
+		</div>
+		<div class="col-lg-4 col-md-6 text-center">
+		  <h5 class="proj-title">Mimage</h5>
+		  <div class="image-container">
+			<img class="proj-img" src="/images/mimage.png" alt="Adara">
+			<div class="after fade-in">A simple image editor developed using Java.</div>
+			<a href="{{ url_for('detail', slug='mimage-a-simple-image-manipulator') }}" type="button" class="btn af-btn fade-in">Learn More</a>
+		  </div>
+		</div>
+		<div class="col-lg-4 col-md-6 text-center">
+		  <h5 class="proj-title">Snake</h5>
+		  <div class="image-container">
+			<img class="proj-img" src="/images/snake.png" alt="Adara">
+			<div class="after fade-in">A simple snake game developed using Python.</div>
+			<a href="{{ url_for('detail', slug='snake-a-minimal-snake-game') }}" type="button" class="btn af-btn fade-in">Learn More</a>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+{% endblock %}
