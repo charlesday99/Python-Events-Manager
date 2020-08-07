@@ -26,7 +26,7 @@ from passlib.hash import sha256_crypt
 # You may consider using a one-way hash to generate the password, and then
 # use the hash again in the login view to perform the comparison. This is just
 # for simplicity.
-HASHED_PASS = "$5$rounds=535000$oOmNfvkTksDveUyk$lUWpsYX86iNsJuBcVQ1kr0ZkWVbtF1A2Lv7v76P/pzA"
+HASHED_PASS = "$5$rounds=535000$94W0HLA2Sde5yC.A$F.H1Y6Qi19ELOzFhH4vbwTdA7P8QrPZk.C54Cby47S7"
 APP_DIR = os.path.dirname(os.path.realpath(__file__))
 
 # The playhouse.flask_utils.FlaskDB object accepts database URL configuration.
