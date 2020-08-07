@@ -2,12 +2,16 @@
 
 {% block title %}Dashboard{% endblock %}
 
+{% block description %}Events manager dashboard.{% endblock %}
+
 {% block content_title %}Dashboard{% endblock %}
 
 {% block content %}
-
-  <button class="btn btn-primary site-btn" onclick="window.location.href='{{ url_for('create') }}'">Create Post</button>
-  <button class="btn btn-primary site-btn" onclick="window.location.href='{{ url_for('drafts') }}'">View Draft Posts</button>
-  <button class="btn btn-primary site-btn" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
-
+  <h3>Event Management</h3>
+  <button class="btn btn-primary" onclick="window.location.href='{{ url_for('create') }}'">Create Event</button>
+  <button class="btn btn-primary" onclick="window.location.href='{{ url_for('drafts') }}'">View Draft Events</button>
+  <h3>Image Management</h3>
+  <button class="btn btn-primary" onclick="window.location.href=''>Manage Images</button>
+  <h3>Logout</h3>
+  <button class="btn btn-primary" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
 {% endblock %}

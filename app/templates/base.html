@@ -4,7 +4,7 @@
     
     <title>{% block title %}{% endblock %}</title>
     
-    <meta name="description" content="Home Page">
+    <meta name="description" content="{% block description %}{% endblock %}">
     <meta charset="utf-8">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#000000">
@@ -18,9 +18,9 @@
 	  
     {% block extra_head %}{% endblock %}
 
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-      <script src="/js/quill.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="/js/quill.js"></script>
 
     {% block extra_scripts %}{% endblock %}
     
@@ -86,29 +86,11 @@
 
       <footer>
         <hr />
-        <p>Kane Miles &copy; 2020</p>
+        <p>Torbay Events Manager</p> &copy; 2020</p>
       </footer>
     </div>
     
-    {% block final_scripts %}
-      <script>
-        
-        var buttons = document.getElementsByClassName("af-btn");
-        
-        for (i = 0; i < buttons.length; i++) {
-          let button = buttons[i];
-          buttons[i].onclick = function () {
-            var trans_value = getComputedStyle(button).getPropertyValue("opacity");
-            console.log(trans_value);
-            if(trans_value == 1){
-              return true;
-            }
-            return false;
-          }
-        }
-
-      </script>
-    {% endblock %}
+    {% block final_scripts %}{% endblock %}
 	
   </body>
 </html>

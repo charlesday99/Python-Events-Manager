@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
-{% block title %}Welcome{% endblock %}
+{% block title %}Welcome!{% endblock %}
+
+{% block description %}Welcome page!{% endblock %}
 
 {% block content %}
   <div class="jumbotron jumbotron-fluid">
@@ -41,4 +43,24 @@
   </div>
 </div>
 
+{% endblock %}
+
+{% block final_scripts %}
+<script>
+  
+  var buttons = document.getElementsByClassName("af-btn");
+  
+  for (i = 0; i < buttons.length; i++) {
+    let button = buttons[i];
+    buttons[i].onclick = function () {
+      var trans_value = getComputedStyle(button).getPropertyValue("opacity");
+      console.log(trans_value);
+      if(trans_value == 1){
+        return true;
+      }
+      return false;
+    }
+  }
+
+</script>
 {% endblock %}

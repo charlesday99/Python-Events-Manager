@@ -4,6 +4,8 @@
 
 {% block content_title %}Event Editor{% endblock %}
 
+{% block description %}Event editor.{% endblock %}
+
 {% block form_action %}{{ url_for('edit', slug=entry.slug) }}{% endblock %}
 
 {% block save_button %}Save changes{% endblock %}
