@@ -1,8 +1,10 @@
-import datetime
+from PIL import Image
 import functools
+import datetime
+import urllib
+import glob
 import os
 import re
-import urllib
 
 from flask import (Flask, flash, Markup, redirect, render_template, request,
                    Response, session, url_for)
@@ -300,6 +302,43 @@ def error_500(e):
     return render_template('error.html', error_code=500,
     error_info="Something on the server went very wrong, Sorry!"),500
 
+#Handle image requests
+@app.route('/image/',methods=['GET', 'POST'])
+@login_required
+def image_manager():
+    image_path = os.path.join(APP_DIR,"static","img")
+
+    if request.method == 'POST':
+        try:
+            #Open the image from the POST request
+            file = request.files['file']
+            img = Image.open(file)
+
+            #Convert to RGB if a PNG is uploaded
+            if img.mode in ("RGBA", "P"):
+                img = img.convert("RGB")
+
+            #Extract the file name
+            filename = file.filename.split(".")[0] + ".jpg"
+
+            #Save the image as a JPEG
+            img.save(os.path.join(image_path,filename))
+
+            #Generate and save a small thumbnail version
+            img.thumbnail((140,140))
+            img.save(os.path.join(image_path,"thumbnails",filename))
+        
+            #Return a success message
+            flash('Upload successful', 'success')
+        except:
+            flash('Upload failed', 'danger')
+
+    #Find all the images in the thumbnails folder and pass
+    #the paths to the template
+    images = {}
+    for path in glob.glob(os.path.join(image_path,"thumbnails", "*.jpg")):
+        images[path.split("thumbnails")[1][1:]] = path.split("static")[1]
+    return render_template('images.html', images=images)
 
 #Start point
 if __name__ == "__main__":
