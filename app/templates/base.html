@@ -29,7 +29,7 @@
   <body>
     
     <nav class="custom-nav navbar navbar-expand-lg navbar-dark">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Kane Miles</a>
+      <a class="navbar-brand" href="{{ url_for('index') }}">Torbay Events</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -37,13 +37,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('blog') }}">Blog</a>
+            <a class="nav-link" href="{{ url_for('blog') }}">Events</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('projects') }}">Projects</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('about') }}">About Me</a>
+            <a class="nav-link" href="{{ url_for('about') }}">About</a>
           </li>
           
           {% if session.logged_in %}
@@ -60,12 +60,6 @@
           <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search" value="{% if search %}{{ search }}{% endif %}">
         </form>
         {% endblock %}
-        
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a class="nav-link" href="https://www.linkedin.com/in/kane-miles-dev/"><i class="fa fa-linkedin fa-lg"></i></a>
-          </li>
-        </ul>
         
       </div>
     </nav>
@@ -91,6 +85,23 @@
     </div>
     
     {% block final_scripts %}{% endblock %}
+
+    <script>
+  
+      var buttons = document.getElementsByClassName("af-btn");
+      
+      for (i = 0; i < buttons.length; i++) {
+        let button = buttons[i];
+        buttons[i].onclick = function () {
+          var trans_value = getComputedStyle(button).getPropertyValue("opacity");
+          if(trans_value == 1){
+            return true;
+          }
+          return false;
+        }
+      }
+    
+    </script>
 	
   </body>
 </html>
