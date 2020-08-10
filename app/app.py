@@ -61,7 +61,7 @@ database = flask_db.database
 oembed_providers = bootstrap_basic(OEmbedCache())
 
 #Initalise affilate links database
-LinkDB = links.LinksDB()
+#LinkDB = links.LinksDB()
 
 #Paths
 IMAGE_PATH = os.path.join(APP_DIR,"static","img")
@@ -74,6 +74,7 @@ class Entry(flask_db.Model):
     content = TextField()
     published = BooleanField(index=True)
     timestamp = DateTimeField(default=datetime.datetime.now, index=True)
+    category = CharField()
 
     @property
     def html_content(self):
@@ -221,8 +222,9 @@ def _create_or_edit(entry, template):
     if request.method == 'POST':
         entry.title = request.form.get('title') or ''
         entry.content = request.form.get('content') or ''
+        entry.category = request.form.get('category') or ''
         entry.published = request.form.get('published') or False
-        if not (entry.title and entry.content):
+        if not (entry.title and entry.content and entry.category):
             flash('Title and Content are required.', 'danger')
         else:
             # Wrap the call to save in a transaction so we can roll it back

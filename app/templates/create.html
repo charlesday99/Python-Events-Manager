@@ -36,6 +36,19 @@
     </div>
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
+        <div class="dropdown">
+          <label for="category">Category</label>
+            <select class="form-control" name="category" id="category">
+              <option {% if entry.category == 'Art' %}selected{% endif %}>Art</option>
+              <option {% if entry.category == 'History' %}selected{% endif %}>History</option>
+              <option {% if entry.category == 'Food' %}selected{% endif %}>Food</option>
+              <option {% if entry.category == 'Outdoor' %}selected{% endif %}>Outdoor</option>
+            </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
         <button class="btn btn-primary site-btn" type="submit">{% block save_button %}Create{% endblock %}</button>
         <a class="btn btn-default site-btn" href="{{ url_for('index') }}">Cancel</a>
       </div>
