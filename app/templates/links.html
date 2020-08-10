@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Link Manager{% endblock %}
+
+{% block content_title %}Link Manager{% endblock %}
+
+{% block description %}Link management tools.{% endblock %}
+
+{% block content %}
+	<h3>Create New Link</h3>
+	<form class="form-inline" action="/link/new" method='post'>
+		<div class="form-group mx-sm-3 mb-2">
+			<input type="url" class="form-control" id="createLink" name="URL" placeholder="https://www.google.com">
+		</div>
+		<button type="submit" class="btn btn-primary mb-2">Create</button>
+	</form>
+	
+	<h3>Links</h3>
+	<table class="table table-hover">
+		<thead>
+		  <tr>
+			<th scope="col">ID</th>
+			<th scope="col">URL</th>
+			<th scope="col">Click Count</th>
+			<th scope="col">Edit</th>
+		  </tr>
+		</thead>
+		<tbody>
+			{% for link in links %}
+			<tr>
+				<th scope="row">{{ link[0] }}</th>
+				<td>{{ link[1] }}</td>
+				<td>{{ link[2] }}</td>
+				<td><button onclick="console.log({{link[0]}})" class="btn btn-primary">Edit</button></td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

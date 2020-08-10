@@ -7,7 +7,7 @@ import os
 import re
 
 from flask import (Flask, flash, Markup, redirect, render_template, request,
-                   Response, session, url_for)
+                   Response, session, url_for, abort, jsonify)
 from markdown import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
@@ -19,6 +19,7 @@ from playhouse.sqlite_ext import *
 from gevent.pywsgi import WSGIServer
 
 from passlib.hash import sha256_crypt
+import links
 
 
 # Blog configuration values.
@@ -58,6 +59,13 @@ database = flask_db.database
 # We'll use a simple in-memory cache so that multiple requests for the same
 # video don't require multiple network requests.
 oembed_providers = bootstrap_basic(OEmbedCache())
+
+#Initalise affilate links database
+LinkDB = links.LinksDB()
+
+#Paths
+IMAGE_PATH = os.path.join(APP_DIR,"static","img")
+THUMBNAIL_PATH = os.path.join(APP_DIR,"static","img","thumbnails")
 
 
 class Entry(flask_db.Model):
@@ -303,10 +311,9 @@ def error_500(e):
     error_info="Something on the server went very wrong, Sorry!"),500
 
 #Handle image requests
-@app.route('/image/',methods=['GET', 'POST'])
-@login_required
-def image_manager():
-    image_path = os.path.join(APP_DIR,"static","img")
+@app.route('/image/',methods=['GET', 'POST', 'DELETE','UPDATE'])
+def image_api():
+    IMAGE_PATH = os.path.join(APP_DIR,"static","img")
 
     if request.method == 'POST':
         try:
@@ -322,23 +329,71 @@ def image_manager():
             filename = file.filename.split(".")[0] + ".jpg"
 
             #Save the image as a JPEG
-            img.save(os.path.join(image_path,filename))
+            img.save(os.path.join(IMAGE_PATH,filename))
 
             #Generate and save a small thumbnail version
             img.thumbnail((140,140))
-            img.save(os.path.join(image_path,"thumbnails",filename))
+            img.save(os.path.join(THUMBNAIL_PATH,filename))
         
             #Return a success message
             flash('Upload successful', 'success')
         except:
             flash('Upload failed', 'danger')
+    else:
+        return abort(404)
 
+#Host image management page
+@app.route('/image-manager/')
+@login_required
+def image_manager():
     #Find all the images in the thumbnails folder and pass
     #the paths to the template
     images = {}
-    for path in glob.glob(os.path.join(image_path,"thumbnails", "*.jpg")):
+    for path in glob.glob(os.path.join(IMAGE_PATH,"thumbnails", "*.jpg")):
         images[path.split("thumbnails")[1][1:]] = path.split("static")[1]
     return render_template('images.html', images=images)
+
+#Handle links requests
+@app.route('/link/<ID>', methods=['GET', 'DELETE','UPDATE'])
+def link_api(ID):
+    if request.method == 'GET':
+        if (LinkDB.hasID(ID)):
+            LinkDB.addCounter(ID)
+            return redirect(LinkDB.getLink(ID)[1], code=302)
+        else:
+            return abort(404)
+
+#Return link info
+@app.route('/link/<ID>/info')
+@login_required
+def link_api_info(ID):
+    if (LinkDB.hasID(ID)):
+        return {"count": LinkDB.getLink(ID)[2]}
+    else:
+        return abort(404)
+    
+#Return link info
+@app.route('/link/<ID>/reset')
+@login_required
+def link_api_reset(ID):
+    if (LinkDB.hasID(ID)):
+        LinkDB.resetCounter(ID)
+        return "Reset link counter."
+    else:
+        return abort(404)
+
+#Create new link
+@app.route('/link/new', methods=['POST'])
+@login_required
+def link_post():
+    LinkDB.createLink(request.form['URL'])
+    return redirect(url_for('link_manager'))
+
+#Host image management page
+@app.route('/link-manager/')
+@login_required
+def link_manager():
+    return render_template('links.html',links=LinkDB.dump())
 
 #Start point
 if __name__ == "__main__":
