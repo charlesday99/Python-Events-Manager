@@ -354,31 +354,51 @@ def image_manager():
     return render_template('images.html', images=images)
 
 #Handle links requests
-@app.route('/link/<ID>', methods=['GET', 'DELETE','UPDATE'])
+@app.route('/link/<ID>')
 def link_api(ID):
-    if request.method == 'GET':
-        if (LinkDB.hasID(ID)):
-            LinkDB.addCounter(ID)
-            return redirect(LinkDB.getLink(ID)[1], code=302)
-        else:
-            return abort(404)
+    if (LinkDB.hasID(ID)):
+        LinkDB.addCounter(ID)
+        return redirect(LinkDB.getLink(ID)[1], code=302)
+    else:
+        return abort(404)
 
 #Return link info
 @app.route('/link/<ID>/info')
 @login_required
 def link_api_info(ID):
     if (LinkDB.hasID(ID)):
-        return {"count": LinkDB.getLink(ID)[2]}
+        data = LinkDB.getLink(ID)
+        return {"count": data[2],"URL":data[1]}
+    else:
+        return abort(404)
+
+#Delete Link
+@app.route('/link/<ID>/delete')
+@login_required
+def link_api_delete(ID):
+    if (LinkDB.hasID(ID)):
+        LinkDB.deleteLink(ID)
+        return redirect(url_for('link_manager'))
+    else:
+        return abort(404)
+
+#Update Link
+@app.route('/link/<ID>/update')
+@login_required
+def link_api_update(ID):
+    if (LinkDB.hasID(ID)):
+        LinkDB.updateLink(ID,request.args.get('URL'))
+        return redirect(url_for('link_manager'))
     else:
         return abort(404)
     
-#Return link info
+#Reset link counter
 @app.route('/link/<ID>/reset')
 @login_required
 def link_api_reset(ID):
     if (LinkDB.hasID(ID)):
         LinkDB.resetCounter(ID)
-        return "Reset link counter."
+        return redirect(url_for('link_manager'))
     else:
         return abort(404)
 

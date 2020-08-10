@@ -15,7 +15,7 @@ class LinksDB:
         #Checks if the table exists and creates one if needed
         if self.cursor.execute('SELECT tbl_name FROM "main".sqlite_master;').fetchone() == None:
             self.cursor.execute('CREATE TABLE "Links" ("ID" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"URL" TEXT NOT NULL,"Count" INTEGER)')
-            print("Created new database at '{}',".format(self.DATABASE_PATH))
+            print("Created new database at '{}'.".format(self.DATABASE_PATH))
 
         #Commit and return
         self.connection.commit()
