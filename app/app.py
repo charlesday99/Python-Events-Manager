@@ -67,6 +67,8 @@ LinkDB = links.LinksDB()
 IMAGE_PATH = os.path.join(APP_DIR,"static","img")
 THUMBNAIL_PATH = os.path.join(APP_DIR,"static","img","thumbnails")
 
+# Categories (should probably store these in db).
+categories = ["art", "history", "outdoor", "food"]
 
 class Entry(flask_db.Model):
     title = CharField()
@@ -132,23 +134,31 @@ class Entry(flask_db.Model):
 
     @classmethod
     def search(cls, query):
-        words = [word.strip() for word in query.split() if word.strip()]
-        if not words:
-            # Return an empty query.
-            return Entry.noop()
-        else:
-            search = ' '.join(words)
+        
+        query = query.lower()
+        if query not in categories:
 
-        # Query the full-text search index for entries matching the given
-        # search query, then join the actual Entry data on the matching
-        # search result.
-        return (Entry
-                .select(Entry, FTSEntry.rank().alias('score'))
-                .join(FTSEntry, on=(Entry.id == FTSEntry.docid))
-                .where(
-                    FTSEntry.match(search) &
-                    (Entry.published == True))
-                .order_by(SQL('score')))
+            words = [word.strip() for word in query.split() if word.strip()]
+            if not words:
+                # Return an empty query.
+                return Entry.noop()
+            else:
+                search = ' '.join(words)
+
+            # Query the full-text search index for entries matching the given
+            # search query, then join the actual Entry data on the matching
+            # search result.
+            return (Entry
+                    .select(Entry, FTSEntry.rank().alias('score'))
+                    .join(FTSEntry, on=(Entry.id == FTSEntry.docid))
+                    .where(
+                        FTSEntry.match(search) &
+                        (Entry.published == True))
+                    .order_by(SQL('score')))
+
+        else:
+            # If query is category, return all entries with category type.
+            return (Entry).select(Entry).where(Entry.category == query.capitalize())
 
 class FTSEntry(FTSModel):
     content = TextField()
