@@ -71,9 +71,6 @@ p {
 
 .site-btn:hover, .af-btn:hover, .af-btn:active {
 	color: #FFF;
-	background-color: #de1616 !important;
-	border-color: #de1616 !important;
-	box-shadow: 0 0 0 0rem rgba(222, 22, 22, 0.25) !important;
 }
 
 .proj-title {
@@ -104,9 +101,8 @@ p {
 	left: 50%;
 	transform: translateX(-50%);
 	margin-bottom: 20px;
-	background-color: #c40000;
-	border-color: #c40000;
-	box-shadow: 0 0 0 0rem rgba(222, 22, 22, 0.25);
+	background-color: Transparent;
+	border-color: #FFFFFF;
 }
 
 .image-container .after {
