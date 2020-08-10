@@ -61,7 +61,7 @@ database = flask_db.database
 oembed_providers = bootstrap_basic(OEmbedCache())
 
 #Initalise affilate links database
-#LinkDB = links.LinksDB()
+LinkDB = links.LinksDB()
 
 #Paths
 IMAGE_PATH = os.path.join(APP_DIR,"static","img")

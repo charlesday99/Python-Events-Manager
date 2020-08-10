@@ -5,7 +5,8 @@ import os
 #URLs and thier respective counters
 class LinksDB:
     #Database path and name
-    DATABASE_PATH = os.path.join("app","links.db")
+    APP_DIR = os.path.dirname(os.path.realpath(__file__))
+    DATABASE_PATH = os.path.join(APP_DIR,"links.db")
 
     def __init__(self):
         #Connect to local database
