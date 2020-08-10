@@ -134,31 +134,24 @@ class Entry(flask_db.Model):
 
     @classmethod
     def search(cls, query):
-        
-        query = query.lower()
-        if query not in categories:
 
-            words = [word.strip() for word in query.split() if word.strip()]
-            if not words:
-                # Return an empty query.
-                return Entry.noop()
-            else:
-                search = ' '.join(words)
-
-            # Query the full-text search index for entries matching the given
-            # search query, then join the actual Entry data on the matching
-            # search result.
-            return (Entry
-                    .select(Entry, FTSEntry.rank().alias('score'))
-                    .join(FTSEntry, on=(Entry.id == FTSEntry.docid))
-                    .where(
-                        FTSEntry.match(search) &
-                        (Entry.published == True))
-                    .order_by(SQL('score')))
-
+        words = [word.strip() for word in query.split() if word.strip()]
+        if not words:
+            # Return an empty query.
+            return Entry.noop()
         else:
-            # If query is category, return all entries with category type.
-            return (Entry).select(Entry).where(Entry.category == query.capitalize())
+            search = ' '.join(words)
+
+        # Query the full-text search index for entries matching the given
+        # search query, then join the actual Entry data on the matching
+        # search result.
+        return (Entry
+                .select(Entry, FTSEntry.rank().alias('score'))
+                .join(FTSEntry, on=(Entry.id == FTSEntry.docid))
+                .where(
+                    FTSEntry.match(search) &
+                    (Entry.published == True))
+                .order_by(SQL('score')))
 
 class FTSEntry(FTSModel):
     content = TextField()
@@ -203,9 +196,17 @@ def index():
 
 @app.route('/blog/')
 def blog():
-    search_query = request.args.get('q')
+
+    search_query = request.args.get('q').lower()
+
     if search_query:
-        query = Entry.search(search_query)
+        category_type = None;
+        if search_query in categories:
+            search_query = search_query.capitalize()
+            query = (Entry).select(Entry).where(Entry.category == search_query)
+            category_type = search_query
+        else:
+            query = Entry.search(search_query)
     else:
         query = Entry.public().order_by(Entry.timestamp.desc())
 
@@ -217,6 +218,7 @@ def blog():
         'blog.html',
         query,
         search=search_query,
+        category=category_type,
         check_bounds=False)
 
 @app.route('/projects/')
