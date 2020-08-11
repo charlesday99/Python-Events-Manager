@@ -20,6 +20,7 @@ from gevent.pywsgi import WSGIServer
 
 from passlib.hash import sha256_crypt
 import links
+import images
 
 
 # Blog configuration values.
@@ -61,6 +62,7 @@ oembed_providers = bootstrap_basic(OEmbedCache())
 
 #Initalise affilate links database
 LinkDB = links.LinksDB()
+ImageDB = images.ImagesDB()
 
 #Paths
 IMAGE_PATH = os.path.join(APP_DIR,"static","content")
@@ -325,37 +327,52 @@ def error_500(e):
     return render_template('error.html', error_code=500,
     error_info="Something on the server went very wrong, Sorry!"),500
 
-#Handle image requests
-@app.route('/image/',methods=['GET', 'POST', 'DELETE','UPDATE'])
-def image_api():
-    if request.method == 'POST':
-        try:
-            #Open the image from the POST request
-            file = request.files['file']
+#Handle image upload requests
+@app.route('/image/', methods=['POST','GET'])
+def image_api_post():
+    if request.method == 'GET':
+        return jsonify(ImageDB.dump())
+    else:
+        file = request.files['file']
+        if file is not None:
+            #Load the image and extract the file name
             img = Image.open(file)
-
-            #Convert to RGB if a PNG is uploaded
-            if img.mode in ("RGBA", "P"):
-                img = img.convert("RGB")
-
-            #Extract the file name
             filename = file.filename.split(".")[0] + ".jpg"
 
-            #Save the image as a JPEG
-            img.save(os.path.join(IMAGE_PATH,filename))
+            #Extract the parameters
+            title = request.args.get('title') or ''
+            caption = request.args.get('caption') or ''
 
-            #Generate and save a small thumbnail version
-            img.thumbnail((140,140))
-            img.save(os.path.join(THUMBNAIL_PATH,filename))
+            #Upload the new image
+            ImageDB.addImage(img,filename,title,caption)
+            return "Uploaded {}.".format(filename)
+
+
+#Handle image upload requests
+@app.route('/image/<name>', methods=['GET','DELETE','UPDATE'])
+def image_api(name):
+    if ImageDB.hasImage(name):
+        if request.method == 'GET':
+            data = ImageDB.getImage(name)
+            return {'id':data[0],'title':data[1],'caption':data[1],'filename':data[3]}
+
+        if request.method == 'DELETE':
+            ImageDB.deleteImage(name)
+            return "Deleted {}.".format(name)
         
-            #Return a success message
-            flash('Image uploaded successfully.', 'success')
-            return redirect(url_for('image_manager'))
-        except:
-            flash('Image uploaded failed.', 'danger')
-            return redirect(url_for('image_manager'))
+        if request.method == 'UPDATE':
+            title = request.args.get('title') or ''
+            caption = request.args.get('caption') or ''
+
+            if title is not '':
+                ImageDB.updateTitle(name, title)
+                return "Updated {} title.".format(name)
+            if caption is not '':
+                ImageDB.updateCaption(name, caption)
+                return "Updated {} caption.".format(name)
     else:
-        return abort(404)
+        abort(404)
+
 
 #Host image management page
 @app.route('/image-manager/')
