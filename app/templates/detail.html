@@ -9,6 +9,11 @@
 {% block content %}
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
   {{ entry.html_content }}
+
+  {% if entry.link_id|length %}
+    <button class="btn site-btn" onclick="window.location.href='/link/{{ entry.link_id }}'">Click here!</button>
+  {% endif %}
+
   {% if session.logged_in %}
     <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Edit Post</button>
     <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Delete Post</button>

@@ -76,6 +76,7 @@ class Entry(flask_db.Model):
     published = BooleanField(index=True)
     timestamp = DateTimeField(default=datetime.datetime.now, index=True)
     category = CharField()
+    link_id = CharField()
 
     @property
     def html_content(self):
@@ -235,6 +236,7 @@ def _create_or_edit(entry, template):
         entry.content = request.form.get('content') or ''
         entry.category = request.form.get('category') or ''
         entry.published = request.form.get('published') or False
+        entry.link_id = request.form.get('ID') or ''
         if not (entry.title and entry.content and entry.category):
             flash('Title and Content are required.', 'danger')
         else:
