@@ -36,6 +36,17 @@
 
 {% block final_scripts %}
 	<script>
+		
 		addImageClickers();
+		
+		function deleteClicked() {
+			var selected_img = document.getElementById("photo-preview-image").src;
+			selected_img = selected_img.replace(/^.*[\\\/]/, '');
+  			$.ajax({
+				 url : '/image/' + selected_img,
+				 method : 'delete',
+			})
+		}
+		
 	</script>
 {% endblock %}
