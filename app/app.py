@@ -64,8 +64,8 @@ oembed_providers = bootstrap_basic(OEmbedCache())
 LinkDB = links.LinksDB()
 
 #Paths
-IMAGE_PATH = os.path.join(APP_DIR,"static","img")
-THUMBNAIL_PATH = os.path.join(APP_DIR,"static","img","thumbnails")
+IMAGE_PATH = os.path.join(APP_DIR,"static","content")
+THUMBNAIL_PATH = os.path.join(APP_DIR,"static","content","thumbnails")
 
 # Categories (should probably store these in db).
 categories = ["art", "history", "outdoor", "food"]
@@ -350,9 +350,9 @@ def image_api():
             img.save(os.path.join(THUMBNAIL_PATH,filename))
         
             #Return a success message
-            flash('Upload successful', 'success')
+            return "Success!"
         except:
-            flash('Upload failed', 'danger')
+            return "Failed!"
     else:
         return abort(404)
 

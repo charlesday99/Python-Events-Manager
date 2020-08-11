@@ -18,7 +18,7 @@ function addImageClickers() {
                     SELECTED_IMAGES.push(this.id);
                 }
             } else {
-                document.getElementById("photo-preview-image").src = "/img/" + this.id;
+                document.getElementById("photo-preview-image").src = "/content/" + this.id;
                 document.getElementById("photo-preview").style['visibility'] = "visible";
             }
         }
