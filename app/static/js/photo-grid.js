@@ -48,10 +48,28 @@ function selectClicked() {
 }
 
 function deleteClicked() {
+    
+    console.log("selected images before deletion: " + SELECTED_IMAGES);
+
     if (delete_enabled) {
+
         for (id of SELECTED_IMAGES) {
-            document.getElementById(id).style["background-color"] = "#FF0000";
-            //Delete code here
+
+            console.log("attempting delete for image: " + id);
+
+  			$.ajax({
+				 url : '/image/' + id,
+				 method : 'delete',
+			})
+
+            console.log("attempting to remove image div for: " + id);
+            document.getElementById(id).outerHTML = "";
+
         }
+
+        SELECTED_IMAGES = [];
+        document.getElementById("photo-preview-image").src = "";
+        document.getElementById("photo-preview").style['visibility'] = "hidden";
+
     }
 }
