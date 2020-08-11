@@ -58,7 +58,8 @@ class ImagesDB:
 
     #Delete an Image by its filename
     def deleteImage(self, filename):
-        #TODO Delete image from disk
+        os.remove(os.path.join(self.IMAGE_PATH,filename))
+        os.remove(os.path.join(self.THUMBNAIL_PATH,filename))
         self.cursor.execute("DELETE FROM Images WHERE filename = ?;",(filename,))
         self.connection.commit()
 
