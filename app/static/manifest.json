@@ -1,0 +1,22 @@
+{
+  "short_name": "MyTakeOnTorbay",
+  "name": "Art, Events and Attractions in Torbay - MyTakeOnTorbay",
+  "icons": [
+    {
+      "src": "/img/icon192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/img/icon512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "scope": "/",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "orientation": "portrait-primary"
+}
