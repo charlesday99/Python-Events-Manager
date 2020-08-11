@@ -357,7 +357,11 @@ def image_api(name):
             return {'id':data[0],'title':data[1],'caption':data[1],'filename':data[3]}
 
         if request.method == 'DELETE':
+            # Delete image from db.
             ImageDB.deleteImage(name)
+            # Remove image from directory.
+            if os.path.exists(name):
+                os.remove(name)
             return "Deleted {}.".format(name)
         
         if request.method == 'UPDATE':
