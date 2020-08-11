@@ -24,9 +24,12 @@ function populateLinks() {
 }
 
 function updateFormURL() {
-    $.getJSON("/link/" + (document.getElementById("linkID").value) + "/info",function(data){
-        $('#linkURL').val(data['URL']);
-    });
+    var ID = document.getElementById("linkID").value;
+    if (ID !== "") {
+        $.getJSON("/link/" + ID + "/info",function(data){
+            $('#linkURL').val(data['URL']);
+        });
+    }
 }
 
 //Runs on page load
