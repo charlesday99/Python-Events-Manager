@@ -1,5 +1,5 @@
 *.db
 *.pyc
 *.model
-/app/static/img/*.jpg
-/app/static/img/thumbnails/*.jpg
+/app/static/content/*.jpg
+/app/static/content/thumbnails/*.jpg

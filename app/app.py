@@ -45,7 +45,6 @@ SITE_WIDTH = 800
 # Create a Flask WSGI app and configure it using values from the module.
 app = Flask(__name__,static_url_path='')
 app.config.from_object(__name__)
-app.degub = True
 
 # FlaskDB is a wrapper for a peewee database that sets up pre/post-request
 # hooks for managing database connections.
@@ -200,7 +199,7 @@ def blog():
     search_query = request.args.get('q').lower()
 
     if search_query:
-        category_type = None;
+        category_type = None
         if search_query in categories:
             search_query = search_query.capitalize()
             query = (Entry).select(Entry).where(Entry.category == search_query)
@@ -271,7 +270,7 @@ def drafts():
     query = Entry.drafts().order_by(Entry.timestamp.desc())
     return object_list('blog.html', query, check_bounds=False)
 
-@app.route('/<slug>/')
+@app.route('/p/<slug>/')
 def detail(slug):
     if session.get('logged_in'):
         query = Entry.select()
@@ -280,7 +279,7 @@ def detail(slug):
     entry = get_object_or_404(query, Entry.slug == slug)
     return render_template('detail.html', entry=entry)
 
-@app.route('/<slug>/edit/', methods=['GET', 'POST'])
+@app.route('/p/<slug>/edit/', methods=['GET', 'POST'])
 @login_required
 def edit(slug):
     entry = get_object_or_404(Entry, Entry.slug == slug)
@@ -327,8 +326,6 @@ def error_500(e):
 #Handle image requests
 @app.route('/image/',methods=['GET', 'POST', 'DELETE','UPDATE'])
 def image_api():
-    IMAGE_PATH = os.path.join(APP_DIR,"static","img")
-
     if request.method == 'POST':
         try:
             #Open the image from the POST request
@@ -350,9 +347,11 @@ def image_api():
             img.save(os.path.join(THUMBNAIL_PATH,filename))
         
             #Return a success message
-            return "Success!"
+            flash('Image uploaded successfully.', 'success')
+            return redirect(url_for('image_manager'))
         except:
-            return "Failed!"
+            flash('Image uploaded failed.', 'danger')
+            return redirect(url_for('image_manager'))
     else:
         return abort(404)
 
