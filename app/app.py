@@ -7,7 +7,7 @@ import os
 import re
 
 from flask import (Flask, flash, Markup, redirect, render_template, request,
-                   Response, session, url_for, abort, jsonify)
+                   Response, session, url_for, abort, jsonify, send_file)
 from markdown import markdown
 from markdown.extensions.codehilite import CodeHiliteExtension
 from markdown.extensions.extra import ExtraExtension
@@ -421,6 +421,12 @@ def link_api_reset(ID):
 def link_post():
     LinkDB.createLink(request.form['URL'])
     return redirect(url_for('link_manager'))
+
+#Create new link
+@app.route('/link/dump')
+@login_required
+def link_dump():
+    return jsonify(LinkDB.dump())
 
 #Host image management page
 @app.route('/link-manager/')

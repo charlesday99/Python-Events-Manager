@@ -47,6 +47,24 @@
         </div>
       </div>
     </div>
+
+    <div class="form-row" style="padding-left: 15px;">
+      <div class="form-group col-md-4">
+        <label for="linkURL">Affilate URL</label>
+        <input type="url" class="form-control" id="linkURL" readonly>
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="linkID">Link ID</label>
+        <input type="number" class="form-control" id="linkID" name="ID" readonly value="1">
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="urlButton">Change URL</label>
+        <button id="urlButton" type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#linkModal">Edit</button>
+      </div>
+    </div>
+
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
         <button class="btn btn-primary site-btn" type="submit">{% block save_button %}Create{% endblock %}</button>
@@ -54,6 +72,46 @@
       </div>
     </div>
   </form>
+
+  <div class="modal fade" id="linkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">Add Link</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			  <span aria-hidden="true">&times;</span>
+			</button>
+		  </div>
+		  <div class="modal-body">
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-8">
+            <input type="url" class="form-control" id="urlField" placeholder="https://www.google.com">
+          </div>
+          <div class="col-4">
+            <button onclick="addURL()" class="btn btn-primary form-control">Add new</button>
+          </div>
+        </div>
+      </div>
+      
+      <label for="linkTable" style="padding-top: 15px;">Existing links</label>
+      <table class="table table-hover" id="linkTable">
+        <thead>
+          <tr>
+          <th scope="col">ID</th>
+          <th scope="col">URL</th>
+          <th scope="col">Select</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+		  </div>
+		</div>
+	  </div>
+	</div>
 {% endblock %}
 
 {% block final_scripts %}
@@ -98,4 +156,5 @@
         return true;
         };
     </script>
+    <script src="/js/links.js"></script>
 {% endblock %}
