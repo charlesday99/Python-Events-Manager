@@ -213,6 +213,12 @@ def blog():
     else:
         query = Entry.public().order_by(Entry.timestamp.desc())
 
+    # Add tile images for listed entries.
+    banner_images = {}
+    for entry in query:
+        banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
+        banner_images[entry.banner_id] = banner_path.split("static")[1]   
+
     # The `object_list` helper will take a base query and then handle
     # paginating the results if there are more than 20. For more info see
     # the docs:
@@ -222,6 +228,7 @@ def blog():
         query,
         search=search_query,
         category=category_type,
+        banner_images=banner_images,
         check_bounds=False)
 
 @app.route('/projects/')

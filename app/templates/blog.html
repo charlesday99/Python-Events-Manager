@@ -8,6 +8,11 @@
 
 {% block content %}
   {% for entry in object_list %}
+
+    {% if entry.banner_id %}
+      <img src="{{ banner_images[entry.banner_id] }}" alt="banner">
+    {% endif %}
+
     <h4 class="post-links">
       <a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}">
         {{ entry.title }}
