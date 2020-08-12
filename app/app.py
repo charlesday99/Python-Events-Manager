@@ -79,6 +79,7 @@ class Entry(flask_db.Model):
     timestamp = DateTimeField(default=datetime.datetime.now, index=True)
     category = CharField()
     link_id = CharField()
+    banner_id = CharField()
 
     @property
     def html_content(self):
