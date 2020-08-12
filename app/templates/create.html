@@ -30,11 +30,11 @@
     
     <div class="form-group">
       <label class="col-sm-2 control-label">Add Images</label>
-      <div class="col-sm-10">
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#imageModal">Add Banner Image</button>
-        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#imageModal">Add Showcase Images</button>
+        <div class="col-sm-10">
+          <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#imageModal">Add Banner Image</button>
+          <input type="text" readonly class="form-control-plaintext" id="image_name" value="image name will be here">
+        </div>
       </div>
-    </div>
     
     <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -57,7 +57,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Add</button>
+            <button type="button" class="btn btn-primary" onclick="add_image()">Add</button>
           </div>
         </div>
       </div>
@@ -159,7 +159,15 @@
         addImageClickers();
         select_enabled = false;
       
-        
+        function add_image() {
+          if(SELECTED_IMAGES.length == 1){
+            document.getElementById("image_name").value = SELECTED_IMAGES[0];
+          } else if (SELECTED_IMAGES.length < 1){
+            window.alert("Please select an image.");
+          } else {
+            window.alert("Please only select one image.");
+          }
+        }
 		
         var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
