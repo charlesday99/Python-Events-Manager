@@ -31,8 +31,8 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Add Images</label>
       <div class="col-sm-10">
-        <button class="btn btn-primary site-btn" type="button" data-toggle="modal" data-target="#imageModal">Add Banner Image</button>
-        <button class="btn btn-primary site-btn" type="button" data-toggle="modal" data-target="#imageModal">Add Showcase Images</button>
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#imageModal">Add Banner Image</button>
+        <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#imageModal">Add Showcase Images</button>
       </div>
     </div>
     
@@ -106,8 +106,8 @@
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button class="btn btn-primary site-btn" type="submit">{% block save_button %}Create{% endblock %}</button>
-        <a class="btn btn-default site-btn" href="{{ url_for('index') }}">Cancel</a>
+        <button class="btn btn-primary" type="submit">{% block save_button %}Create{% endblock %}</button>
+        <a class="btn btn-default" href="{{ url_for('index') }}">Cancel</a>
       </div>
     </div>
   </form>
@@ -158,6 +158,8 @@
       
         addImageClickers();
         select_enabled = false;
+      
+        
 		
         var toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
