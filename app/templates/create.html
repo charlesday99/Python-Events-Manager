@@ -57,7 +57,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_banner()">Add</button>
+            <button type="button" class="btn btn-primary" onclick="add_banner()">Add</button>
           </div>
         </div>
       </div>
@@ -162,9 +162,12 @@
         // used to set image file name in form once selected.
         function add_banner() {
           if(SELECTED_IMAGES.length == 1){
+            // if only one image has been selected, set input value & text to name.
             document.getElementById("image_name").innerHTML = SELECTED_IMAGES[0];
             document.getElementById("customFile").value = SELECTED_IMAGES[0];
+            $('#imageModal').modal('hide');
           } else if (SELECTED_IMAGES.length < 1){
+            // if no image selected or too many images, show alert.
             window.alert("Please select an image.");
           } else {
             window.alert("Please only select one image.");
