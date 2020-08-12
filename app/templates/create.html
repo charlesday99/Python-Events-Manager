@@ -31,8 +31,8 @@
     <div class="form-group col-sm-10">
       <label >Add Banner Image</label>
       <div class="custom-file">
-        <input name="banner_file" type="text" class="custom-file-input" id="customFile" data-toggle="modal" data-target="#imageModal">
-        <label class="custom-file-label" for="customFile" id="image_name">Choose file</label>
+        <input name="banner_file" type="text" value="{{ entry.banner_id }}" class="custom-file-input" id="customFile" data-toggle="modal" data-target="#imageModal">
+        <label class="custom-file-label" for="customFile" id="image_name">{{ entry.banner_id }}</label>
       </div>
     </div>
     
