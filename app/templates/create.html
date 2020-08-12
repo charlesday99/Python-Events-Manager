@@ -25,8 +25,36 @@
         <textarea id="content" name="content" style="display:none"></textarea>
       </div>
     </div>
+    
     <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10"><label>Add Images</label>
+      <label class="col-sm-2 control-label">Add Images</label>
+      <div class="col-sm-10">
+        <button class="btn btn-primary site-btn" type="button" data-toggle="modal" data-target="#imageModal">Add Banner Image</button>
+        <button class="btn btn-primary site-btn" type="button" data-toggle="modal" data-target="#imageModal">Add Showcase Images</button>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Banner Image</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
           <label>
             <input name="published" type="checkbox" value="y"{% if entry.published %} checked="checked"{% endif %}> Published?
@@ -46,14 +74,6 @@
               <option {% if entry.category == 'Outdoor' %}selected{% endif %}>Outdoor</option>
             </select>
         </div>
-      </div>
-    </div>
-      
-    <div class="form-group">
-      <label class="col-sm-2 control-label">Add Images</label>
-      <div class="col-sm-10">
-        <button class="btn btn-primary site-btn">Add Banner Image</button>
-        <button class="btn btn-primary site-btn">Add Showcase Images</button>
       </div>
     </div>
 
