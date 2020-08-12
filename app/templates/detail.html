@@ -7,6 +7,9 @@
 {% block content_title %}{{ entry.title }}{% endblock %}
 
 {% block content %}
+
+  <img src="{{ banner_path }}" alt="banner">
+
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
   {{ entry.html_content }}
 

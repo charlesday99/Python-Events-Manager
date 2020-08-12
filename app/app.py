@@ -290,7 +290,12 @@ def detail(slug):
     else:
         query = Entry.public()
     entry = get_object_or_404(query, Entry.slug == slug)
-    return render_template('detail.html', entry=entry)
+
+    # Obtain path for banner image.
+    banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
+    banner_path = banner_path.split("static")[1]
+    
+    return render_template('detail.html', entry=entry, banner_path=banner_path)
 
 @app.route('/p/<slug>/edit/', methods=['GET', 'POST'])
 @login_required
