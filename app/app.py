@@ -373,8 +373,15 @@ def image_api(name):
             return {'id':data[0],'title':data[1],'caption':data[1],'filename':data[3]}
 
         if request.method == 'DELETE':
-            #Delete image from db
+            # Delete image from db
             ImageDB.deleteImage(name)
+            
+            # Delete banner from entries with 
+            for entry in Entry.select().where(Entry.banner_id == name):
+                entry.banner_id = "";
+                with database.atomic():
+                    entry.save()
+                    
             return "Deleted {}.".format(name)
         
         if request.method == 'UPDATE':
