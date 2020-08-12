@@ -257,7 +257,13 @@ def _create_or_edit(entry, template):
                 else:
                     return redirect(url_for('edit', slug=entry.slug))
 
-    return render_template(template, entry=entry)
+    #Find all the images in the thumbnails folder and pass
+    #the paths to the template
+    images = {}
+    for path in glob.glob(os.path.join(IMAGE_PATH,"thumbnails", "*.jpg")):
+        images[path.split("thumbnails")[1][1:]] = path.split("static")[1]
+        
+    return render_template(template, entry=entry, images=images)
 
 @app.route('/create/', methods=['GET', 'POST'])
 @login_required
