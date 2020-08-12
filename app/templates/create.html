@@ -31,7 +31,7 @@
     <div class="form-group col-sm-10">
       <label >Add Banner Image</label>
       <div class="custom-file">
-        <input type="button" class="custom-file-input" id="customFile" data-toggle="modal" data-target="#imageModal">
+        <input name="banner_file" type="text" class="custom-file-input" id="customFile" data-toggle="modal" data-target="#imageModal">
         <label class="custom-file-label" for="customFile" id="image_name">Choose file</label>
       </div>
     </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="add_image()">Add</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="add_banner()">Add</button>
           </div>
         </div>
       </div>
@@ -158,10 +158,12 @@
       
         addImageClickers();
         select_enabled = false;
-      
-        function add_image() {
+        
+        // used to set image file name in form once selected.
+        function add_banner() {
           if(SELECTED_IMAGES.length == 1){
             document.getElementById("image_name").innerHTML = SELECTED_IMAGES[0];
+            document.getElementById("customFile").value = SELECTED_IMAGES[0];
           } else if (SELECTED_IMAGES.length < 1){
             window.alert("Please select an image.");
           } else {

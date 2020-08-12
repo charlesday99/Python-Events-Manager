@@ -240,8 +240,10 @@ def _create_or_edit(entry, template):
         entry.category = request.form.get('category') or ''
         entry.published = request.form.get('published') or False
         entry.link_id = request.form.get('ID') or ''
+        entry.banner_id = request.form.get('banner_file') or ''
+            
         if not (entry.title and entry.content and entry.category):
-            flash('Title and Content are required.', 'danger')
+            flash('Title, Content & Category are required.', 'danger')
         else:
             # Wrap the call to save in a transaction so we can roll it back
             # cleanly in the event of an integrity error.
