@@ -2,6 +2,8 @@ from PIL import Image
 import sqlite3
 import os
 
+#Class for storing image filenames, titles and
+#captions in a database.
 class ImagesDB:
     #Database path and name
     APP_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -39,7 +41,6 @@ class ImagesDB:
             
             self.cursor.execute("INSERT INTO Images VALUES (NULL,?,?,?)",(title,caption,filename))
             self.connection.commit()
-
 
     #Get an Image by its filename
     def getImage(self, filename):

@@ -348,7 +348,7 @@ def image_api_post():
             return "Uploaded {}.".format(filename)
 
 
-#Handle image upload requests
+#Handle image get, deletes and updates
 @app.route('/image/<name>', methods=['GET','DELETE','UPDATE'])
 def image_api(name):
     if ImageDB.hasImage(name):
@@ -357,11 +357,8 @@ def image_api(name):
             return {'id':data[0],'title':data[1],'caption':data[1],'filename':data[3]}
 
         if request.method == 'DELETE':
-            # Delete image from db.
+            #Delete image from db
             ImageDB.deleteImage(name)
-            # Remove image from directory.
-            if os.path.exists(name):
-                os.remove(name)
             return "Deleted {}.".format(name)
         
         if request.method == 'UPDATE':
