@@ -292,8 +292,10 @@ def detail(slug):
     entry = get_object_or_404(query, Entry.slug == slug)
 
     # Obtain path for banner image.
-    banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
-    banner_path = banner_path.split("static")[1]
+    banner_path = None;
+    if entry.banner_id:
+        banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
+        banner_path = banner_path.split("static")[1]
     
     return render_template('detail.html', entry=entry, banner_path=banner_path)
 
