@@ -18,8 +18,7 @@ function addImageClickers() {
                     SELECTED_IMAGES.push(this.id);
                 }
             } else {
-                document.getElementById("photo-preview-image").src = "/content/" + this.id;
-                document.getElementById("photo-preview").style['visibility'] = "visible";
+                console.log(this.id);
             }
         }
     }
@@ -49,16 +48,14 @@ function selectClicked() {
 
 function deleteClicked() {
     if (delete_enabled) {
-
+        
         for (id of SELECTED_IMAGES) {
 
   			$.ajax({
 				 url : '/image/' + id,
 				 method : 'delete',
             })
-            
             document.getElementById(id).outerHTML = "";
-
         }
         location.reload();
     }
