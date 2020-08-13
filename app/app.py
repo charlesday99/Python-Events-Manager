@@ -372,7 +372,7 @@ def image_api_post():
 
 
 #Handle image get, deletes and updates
-@app.route('/image/<name>', methods=['GET','DELETE','UPDATE'])
+@app.route('/image/<name>', methods=['GET','DELETE','PUT'])
 def image_api(name):
     if ImageDB.hasImage(name):
         if request.method == 'GET':
@@ -391,16 +391,18 @@ def image_api(name):
                     
             return "Deleted {}.".format(name)
         
-        if request.method == 'UPDATE':
-            title = request.args.get('title') or ''
-            caption = request.args.get('caption') or ''
+        if request.method == 'PUT':
+            content = request.json
 
-            if title is not '':
-                ImageDB.updateTitle(name, title)
+            if content['field'] == 'title':
+                ImageDB.updateTitle(name, content['value'])
                 return "Updated {} title.".format(name)
-            if caption is not '':
-                ImageDB.updateCaption(name, caption)
+
+            if content['field'] == 'caption':
+                ImageDB.updateCaption(name, content['value'])
                 return "Updated {} caption.".format(name)
+
+            abort(400)
     else:
         abort(404)
 

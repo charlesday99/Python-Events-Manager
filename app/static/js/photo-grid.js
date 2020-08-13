@@ -24,9 +24,10 @@ function addImageClickers() {
                     document.getElementById("titleField").value = data['title'];
                     document.getElementById("captionField").value = data['caption'];
                     document.getElementById("previewImage").src = "/content/" + data['filename'];
-                    
-                    console.log(ID);
+
                     document.getElementById("imageDeleteButton").setAttribute("onClick","deleteImage('" + ID + "');location.reload();");
+                    document.getElementById("captionUpdateButton").setAttribute("onClick","updateImageFromField('" + ID + "','caption');");
+                    document.getElementById("titleUpdateButton").setAttribute("onClick","updateImageFromField('" + ID + "','title');");
                 });
                 $("#imageModal").modal('show');
             }
@@ -74,6 +75,30 @@ function deleteImage(id) {
         method : 'delete',
     }).fail(function(){
         alert("An error occurred, the image couldnt be deleted!");
+    });
+}
+
+function updateImageFromField(id, field) {
+    var data = "";
+
+    if (field == "title") {
+        data = document.getElementById("titleField").value;
+        updateImage(id, field, data);
+    } else {
+        data = document.getElementById("captionField").value;
+        updateImage(id, field, data);
+    }
+}
+
+function updateImage(id, field, data) {
+    var parameter =  {"value": data, "field": field};
+    $.ajax({
+        type: 'PUT',
+        url: '/image/' + id,
+        data: JSON.stringify(parameter),
+        contentType: 'application/json',
+        }).fail(function(){
+            alert("An error occurred, the image couldn't be updated!");
     });
 }
 
