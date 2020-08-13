@@ -7,12 +7,12 @@
 {% block content_title %}Dashboard{% endblock %}
 
 {% block content %}
-  <h3>Post Management</h3>
+  <h4>Post Management</h4>
   <button class="btn btn-primary" onclick="window.location.href='{{ url_for('create') }}'">Create Event</button>
   <button class="btn btn-primary" onclick="window.location.href='{{ url_for('drafts') }}'">View Draft Events</button>
-  <h3>Resource Management</h3>
+  <h4>Resource Management</h4>
   <button class="btn btn-primary" onclick="window.location.href='{{ url_for('image_manager') }}'">Manage Images</button>
   <button class="btn btn-primary" onclick="window.location.href='{{ url_for('link_manager') }}'">Manage Links</button>
-  <h3>Logout</h3>
+  <h4>Logout</h4>
   <button class="btn btn-primary" onclick="window.location.href='{{ url_for('logout') }}'">Logout</button>
 {% endblock %}
