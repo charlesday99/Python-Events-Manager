@@ -67,6 +67,7 @@ ImageDB = images.ImagesDB()
 #Paths
 IMAGE_PATH = os.path.join(APP_DIR,"static","content")
 THUMBNAIL_PATH = os.path.join(APP_DIR,"static","content","thumbnails")
+THUMBNAIL_PATH_LG = os.path.join(APP_DIR,"static","content","thumbnails_lg")
 
 # Categories (should probably store these in db).
 categories = ["art", "history", "outdoor", "food"]
@@ -216,7 +217,7 @@ def blog():
     # Add tile images for listed entries.
     banner_images = {}
     for entry in query:
-        banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
+        banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
         banner_images[entry.banner_id] = banner_path.split("static")[1]   
 
     # The `object_list` helper will take a base query and then handle
