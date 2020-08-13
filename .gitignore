@@ -3,3 +3,4 @@
 *.model
 /app/static/content/*.jpg
 /app/static/content/thumbnails/*.jpg
+/app/static/content/thumbnails_lg/*.jpg

@@ -10,6 +10,7 @@ class ImagesDB:
     DATABASE_PATH = os.path.join(APP_DIR,"images.db")
     IMAGE_PATH = os.path.join(APP_DIR,"static","content")
     THUMBNAIL_PATH = os.path.join(APP_DIR,"static","content","thumbnails")
+    THUMBNAIL_PATH_LG = os.path.join(APP_DIR,"static","content","thumbnails_lg") ## Added by Kane x 
 
     def __init__(self):
         #Connect to local database
@@ -34,11 +35,15 @@ class ImagesDB:
             if img.mode in ("RGBA", "P"):
                 img = img.convert("RGB")
 
-            #Save the image and then generate a thumbail version
+            #Save the image
             img.save(os.path.join(self.IMAGE_PATH,filename))
+            #Save image as 500x500 for tile image
+            img.thumbnail((500,500))
+            img.save(os.path.join(self.THUMBNAIL_PATH_LG,filename))
+            #Save image as 140x140 for thumbnail image
             img.thumbnail((140,140))
             img.save(os.path.join(self.THUMBNAIL_PATH,filename))
-            
+            #Insert image into db
             self.cursor.execute("INSERT INTO Images VALUES (NULL,?,?,?)",(title,caption,filename))
             self.connection.commit()
 
@@ -61,6 +66,7 @@ class ImagesDB:
     def deleteImage(self, filename):
         os.remove(os.path.join(self.IMAGE_PATH,filename))
         os.remove(os.path.join(self.THUMBNAIL_PATH,filename))
+        os.remove(os.path.join(self.THUMBNAIL_PATH_LG,filename))
         self.cursor.execute("DELETE FROM Images WHERE filename = ?;",(filename,))
         self.connection.commit()
 
