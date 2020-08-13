@@ -18,7 +18,12 @@ function addImageClickers() {
                     SELECTED_IMAGES.push(this.id);
                 }
             } else {
-                console.log(this.id);
+                $.getJSON("/image/" + this.id, function(data){
+                    document.getElementById("titleField").value = data['title'];
+                    document.getElementById("captionField").value = data['caption'];
+                    document.getElementById("previewImage").src = "/content/" + data['filename'];
+                });
+                $("#imageModal").modal('show');
             }
         }
     }
@@ -48,7 +53,7 @@ function selectClicked() {
 
 function deleteClicked() {
     if (delete_enabled) {
-        
+
         for (id of SELECTED_IMAGES) {
 
   			$.ajax({

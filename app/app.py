@@ -377,7 +377,7 @@ def image_api(name):
     if ImageDB.hasImage(name):
         if request.method == 'GET':
             data = ImageDB.getImage(name)
-            return {'id':data[0],'title':data[1],'caption':data[1],'filename':data[3]}
+            return {'id':data[0],'title':data[1],'caption':data[2],'filename':data[3]}
 
         if request.method == 'DELETE':
             # Delete image from db

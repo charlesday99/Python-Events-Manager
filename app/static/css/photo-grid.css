@@ -36,15 +36,9 @@
 }
 
 .photo-preview {
-    visibility: hidden;
-}
-
-.photo-preview img {
     width: 90%;
     object-fit: cover;
     height: 400px;
-    margin: 10px;
-    display: block;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto;   
 }
