@@ -82,6 +82,6 @@ function uploadImage() {
         }).done(function(){
             location.reload();
         }).fail(function(){
-            console.log("An error occurred, the files couldn't be sent!");
+            alert("An error occurred, the files couldn't be sent!");
     });
 }
