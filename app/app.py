@@ -363,8 +363,8 @@ def image_api_post():
             filename = file.filename.split(".")[0] + ".jpg"
 
             #Extract the parameters
-            title = request.args.get('title') or ''
-            caption = request.args.get('caption') or ''
+            title = request.form['title'] or ''
+            caption = request.form['caption'] or ''
 
             #Upload the new image
             ImageDB.addImage(img,filename,title,caption)

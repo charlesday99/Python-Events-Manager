@@ -12,17 +12,32 @@
 
 {% block content %}
 	<h3>Upload</h3>
-	<form id="uploadbanner" enctype="multipart/form-data" method="post" action="/image/">
-		<input type="file" id="img" name="file" accept="image/*">
-		<p> </p>
-		<input type="submit" value="Submit" id="submit" class="btn btn-primary">
-	</form>
+    <div class="form-group col-sm-10">
+		<label >Title</label>
+		<input type="text" class="form-control" id="uploadText">
+	</div>
+	<div class="form-group col-sm-10">
+		<label >Caption</label>
+		<input type="text" class="form-control" id="uploadCaption">
+	</div>
+
+	<div class="form-row" style="padding-left: 15px;">
+		<div class="form-group col-md-6">
+		  <label>Select Image</label>
+		  <input type="file" id="uploadImg" accept="image/*">
+		</div>
+  
+		<div class="form-group col-md-2">
+		  <label>Submit</label>
+		  <button id="uploadButton" type="button" class="btn btn-primary form-control" onclick="uploadImage()">Upload</button>
+		</div>
+	  </div>
 	
 	<h3>Library</h3>
 	<button id="selectBtn" class="btn btn-primary" onclick="selectClicked()">Select</button>
 	<button id="deleteBtn" class="btn" onclick="deleteClicked()">Delete</button>
 
-	<div id="photo-manager" class="photo-manager">
+	<div id="photo-manager" class="photo-manager" style="padding-top: 10px;">
 		<div id="photo-grid" class="photo-grid">
 			{% for id, path in images.items() %}
 				<img id="{{ id }}" src="{{ path }}" class="photo-cell">
