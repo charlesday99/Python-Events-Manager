@@ -60,9 +60,7 @@ function deleteClicked() {
             document.getElementById(id).outerHTML = "";
 
         }
-        SELECTED_IMAGES = [];
-        document.getElementById("photo-preview-image").src = "";
-        document.getElementById("photo-preview").style['visibility'] = "hidden";
+        location.reload();
     }
 }
 

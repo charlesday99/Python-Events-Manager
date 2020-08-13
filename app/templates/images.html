@@ -37,7 +37,7 @@
 	<button id="selectBtn" class="btn btn-primary" onclick="selectClicked()">Select</button>
 	<button id="deleteBtn" class="btn" onclick="deleteClicked()">Delete</button>
 
-	<div id="photo-manager" class="photo-manager" style="padding-top: 10px;">
+	<div id="photo-manager" class="photo-manager" style="margin-top: 10px;">
 		<div id="photo-grid" class="photo-grid">
 			{% for id, path in images.items() %}
 				<img id="{{ id }}" src="{{ path }}" class="photo-cell">
