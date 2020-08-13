@@ -5,23 +5,28 @@ var select_enabled = true;
 function addImageClickers() {
     for (image of document.getElementsByClassName("photo-cell")) {
         image.onclick = function() {
+            var ID = this.id;
+
             if (!select_enabled) {
-                if (SELECTED_IMAGES.includes(this.id)) {
+                if (SELECTED_IMAGES.includes(ID)) {
                     this.style["background-color"] = "#fff";
     
-                    const index = SELECTED_IMAGES.indexOf(this.id);
+                    const index = SELECTED_IMAGES.indexOf(ID);
                     if (index > -1) {
                         SELECTED_IMAGES.splice(index, 1);
                     }
                 } else {
                     this.style["background-color"] = "#2196f3";
-                    SELECTED_IMAGES.push(this.id);
+                    SELECTED_IMAGES.push(ID);
                 }
             } else {
-                $.getJSON("/image/" + this.id, function(data){
+                $.getJSON("/image/" + ID, function(data){
                     document.getElementById("titleField").value = data['title'];
                     document.getElementById("captionField").value = data['caption'];
                     document.getElementById("previewImage").src = "/content/" + data['filename'];
+                    
+                    console.log(ID);
+                    document.getElementById("imageDeleteButton").setAttribute("onClick","deleteImage('" + ID + "');location.reload();");
                 });
                 $("#imageModal").modal('show');
             }
@@ -41,12 +46,12 @@ function selectClicked() {
         delete_enabled = true;
         select_enabled = false;
         document.getElementById("selectBtn").textContent = "Unselect All";
-        document.getElementById("deleteBtn").className = "btn btn-primary";
+        document.getElementById("deleteBtn").className = "btn btn-primary form-control";
     } else {
         delete_enabled = false;
         select_enabled = true;
         document.getElementById("selectBtn").textContent = "Select";
-        document.getElementById("deleteBtn").className = "btn";
+        document.getElementById("deleteBtn").className = "btn form-control";
         unselectImages();
     }
 }
@@ -55,15 +60,21 @@ function deleteClicked() {
     if (delete_enabled) {
 
         for (id of SELECTED_IMAGES) {
-
-  			$.ajax({
-				 url : '/image/' + id,
-				 method : 'delete',
-            })
+            deleteImage(id);
+              
             document.getElementById(id).outerHTML = "";
         }
         location.reload();
     }
+}
+
+function deleteImage(id) {
+    $.ajax({
+        url : '/image/' + id,
+        method : 'delete',
+    }).fail(function(){
+        alert("An error occurred, the image couldnt be deleted!");
+    });
 }
 
 function uploadImage() {
@@ -84,6 +95,6 @@ function uploadImage() {
         }).done(function(){
             location.reload();
         }).fail(function(){
-            alert("An error occurred, the files couldn't be sent!");
+            alert("An error occurred, the image couldn't be uploaded!");
     });
 }
