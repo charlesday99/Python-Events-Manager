@@ -110,6 +110,11 @@ class Entry(flask_db.Model):
         self.update_search_index()
         return ret
 
+    def delete(self):
+        ret = super(Entry, self).delete_instance()
+        self.update_search_index()
+        return ret
+
     def update_search_index(self):
         # Create a row in the FTSEntry table with the post content. This will
         # allow us to use SQLite's awesome full-text search extension to
@@ -314,11 +319,16 @@ def detail(slug):
     
     return render_template('detail.html', entry=entry, banner_path=banner_path)
 
-@app.route('/p/<slug>/edit/', methods=['GET', 'POST'])
+@app.route('/p/<slug>/edit/', methods=['GET', 'POST','DELETE'])
 @login_required
 def edit(slug):
     entry = get_object_or_404(Entry, Entry.slug == slug)
-    return _create_or_edit(entry, 'edit.html')
+    if request.method == 'DELETE':
+        with database.atomic():
+            print(entry.delete())
+        return redirect(url_for('index'))
+    else:
+        return _create_or_edit(entry, 'edit.html')
 
 @app.template_filter('clean_querystring')
 def clean_querystring(request_args, *keys_to_remove, **new_values):

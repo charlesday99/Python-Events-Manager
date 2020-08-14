@@ -22,6 +22,19 @@
   {% if session.logged_in %}
     <hr class="separator">
     <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Edit Post</button>
-    <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Delete Post</button>
+    <button class="btn site-btn" onclick="deletePost('{{ entry.slug }}');">Delete Post</button>
   {% endif %}
+{% endblock %}
+
+{% block final_scripts %}
+<script>
+  function deletePost(id) {
+    $.ajax({
+        url : '/p/' + id + '/edit',
+        method : 'delete',
+    }).fail(function(){
+        alert("An error occurred, the post couldnt be deleted!");
+    });
+  }
+</script>
 {% endblock %}
