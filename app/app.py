@@ -200,12 +200,11 @@ def index():
 
 @app.route('/blog/')
 def blog():
-
-    search_query = request.args.get('q').lower()
+    search_query = request.args.get('q')
+    category_type = None
 
     if search_query:
-        category_type = None
-        if search_query in categories:
+        if search_query.lower() in categories:
             search_query = search_query.capitalize()
             query = (Entry).select(Entry).where(Entry.category == search_query)
             category_type = search_query
@@ -217,8 +216,11 @@ def blog():
     # Add tile images for listed entries.
     banner_images = {}
     for entry in query:
-        banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
-        banner_images[entry.banner_id] = banner_path.split("static")[1]   
+        try:
+            banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
+            banner_images[entry.banner_id] = banner_path.split("static")[1]
+        except:
+            print("Failed to load banner image {} for {}".format(entry.title,entry.banner_id))
 
     # The `object_list` helper will take a base query and then handle
     # paginating the results if there are more than 20. For more info see
