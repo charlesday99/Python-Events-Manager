@@ -12,13 +12,23 @@
       {% for entry in object_list %}
       <div class="col-lg-4 col-md-6 text-center">
         <h5 class="proj-title"><a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}">{{ entry.title }}</a></h5>
-        {% if entry.banner_id %}
-          <div class="image-container">
-            <img class="proj-img" src="{{ banner_images[entry.banner_id] }}" alt="artCategory">
-            <div class="after fade-in"></div>
-            <a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}" type="button" class="btn af-btn fade-in">Go</a>
-          </div>
-        {% endif %}
+        <div class="image-container">
+          {% if entry.banner_id %}
+          <img class="proj-img" src="{{ banner_images[entry.banner_id] }}" alt="{{ entry.title }} thumbnail.">
+          {% else %}
+            {% if entry.category == "Art" %}
+              <img class="proj-img" src="/img/artCategory.jpg" alt="{{ entry.title }} thumbnail.">
+            {% elif entry.category == "History" %}
+              <img class="proj-img" src="/img/historyCategory.jpg" alt="{{ entry.title }} thumbnail.">
+            {% elif entry.category == "Food" %}
+              <img class="proj-img" src="/img/foodCategory.jpg" alt="{{ entry.title }} thumbnail.">
+            {% else %}
+              <img class="proj-img" src="/img/placeholder.jpg" alt="{{ entry.title }} thumbnail.">
+            {% endif %}
+          {% endif %}
+          <div class="after fade-in"></div>
+          <a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}" type="button" class="btn af-btn fade-in">Go</a>
+        </div>
       </div>
       {% else %}
         <p>No entries have been created yet.</p>
