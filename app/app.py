@@ -206,7 +206,7 @@ def blog():
     if search_query:
         if search_query.lower() in categories:
             search_query = search_query.capitalize()
-            query = (Entry).select(Entry).where(Entry.category == search_query)
+            query = Entry.public().select(Entry).where(Entry.category == search_query)
             category_type = search_query
         else:
             query = Entry.search(search_query)
