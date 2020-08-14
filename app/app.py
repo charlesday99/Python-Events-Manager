@@ -220,7 +220,7 @@ def blog():
             banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
             banner_images[entry.banner_id] = banner_path.split("static")[1]
         except:
-            print("Failed to load banner image {} for {}".format(entry.title,entry.banner_id))
+            print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
 
     # The `object_list` helper will take a base query and then handle
     # paginating the results if there are more than 20. For more info see

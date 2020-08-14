@@ -23,7 +23,7 @@ class ImagesDB:
             print("Created new database at '{}'.".format(self.DATABASE_PATH))
 
         #Check that each folder for the images exists,
-        #and create then if they do not
+        #and create them if they do not
         if not os.path.exists(self.IMAGE_PATH):
             os.makedirs(self.IMAGE_PATH)
         if not os.path.exists(self.THUMBNAIL_PATH):
@@ -79,7 +79,7 @@ class ImagesDB:
         self.cursor.execute("DELETE FROM Images WHERE filename = ?;",(filename,))
         self.connection.commit()
 
-    #Check if the database has an filename
+    #Check if the database has the filename
     def hasImage(self, filename):
         self.cursor.execute("SELECT * FROM Images WHERE filename = ?;",(filename,))
         return self.cursor.fetchone() is not None
