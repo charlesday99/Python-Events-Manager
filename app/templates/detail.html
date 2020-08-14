@@ -4,14 +4,14 @@
 
 {% block description %}{{ entry.title }} page.{% endblock %}
 
-{% block content_title %}{{ entry.title }}{% endblock %}
-
 {% block content %}
   
   {% if entry.banner_id %}
-    <img src="{{ banner_path }}" alt="banner">
+    <img class="img-fluid rounded mx-auto d-block" src="{{ banner_path }}" alt="banner">
   {% endif %}
 
+  <h3 class="content-title">{{ entry.title }}</h3>
+  
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
   {{ entry.html_content }}
 
