@@ -305,7 +305,7 @@ def detail(slug):
     banner_path = None
     if entry.banner_id:
         try:
-            banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
+            banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
             banner_path = banner_path.split("static")[1]
         except:
             print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
