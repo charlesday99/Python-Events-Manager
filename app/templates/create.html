@@ -35,16 +35,24 @@
     <div class="form-group col-sm-10">
       <label >Add Banner Image</label>
       <div class="custom-file">
-        <input name="banner_file" type="text" value="{{ entry.banner_id }}" class="custom-file-input" id="customFile" data-toggle="modal" data-target="#imageModal">
-        <label class="custom-file-label" for="customFile" id="image_name">{{ entry.banner_id }}</label>
+        <input name="banner_file" type="text" value="{{ entry.banner_id }}" onclick="on_banner_click()" class="custom-file-input" id="banner_file" data-toggle="modal" data-target="#imageModal">
+        <label class="custom-file-label" for="banner_file" id="banner_label">{{ entry.banner_id }}</label>
       </div>
     </div>
     
-    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="form-group col-sm-10">
+      <label >Add Showcase Images</label>
+      <div class="custom-file">
+        <input name="showcase_files" type="text" value="{{ entry.showcase_ids }}" onclick="on_showcase_click()" class="custom-file-input" id="showcase_files" data-toggle="modal" data-target="#imageModal">
+        <label class="custom-file-label" for="showcase_files" id="showcase_label">{{ entry.showcase_ids }}</label>
+      </div>
+    </div>
+    
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Banner Image</h5>
+            <h5 class="modal-title" id="imageModalLabel">dddd</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -61,7 +69,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" onclick="add_banner()">Add</button>
+            <button type="button" class="btn btn-primary" onclick="on_add_images()">Add</button>
           </div>
         </div>
       </div>
@@ -162,19 +170,55 @@
       
         addImageClickers();
         select_enabled = false;
+      
+        adding_banner = false;
+      
+        // changes image add modal title if add banner clicked.
+        function on_banner_click() {
+          adding_banner = true;
+          $("#imageModalLabel").html("Add Banner");
+        }
         
-        // used to set image file name in form once selected.
-        function add_banner() {
-          if(SELECTED_IMAGES.length == 1){
-            // if only one image has been selected, set input value & text to name.
-            document.getElementById("image_name").innerHTML = SELECTED_IMAGES[0];
-            document.getElementById("customFile").value = SELECTED_IMAGES[0];
+        // changes image add modal title if add showcase images clicked.
+        function on_showcase_click() {
+          adding_banner = false;
+          $("#imageModalLabel").html("Add Showcase Images");
+        }
+        
+        // used for adding banner image to form.
+        function add_banner_image() {
+          // only set form value if one image selected.
+          if(SELECTED_IMAGES.length == 1) {
+            $("#banner_file").val(SELECTED_IMAGES[0]);
+            $("#banner_label").html(SELECTED_IMAGES[0]);
+            // close modal.
             $('#imageModal').modal('hide');
-          } else if (SELECTED_IMAGES.length < 1){
-            // if no image selected or too many images, show alert.
-            window.alert("Please select an image.");
           } else {
-            window.alert("Please only select one image.");
+            window.alert("Please select a single image");
+          }
+        }
+        
+        // used for adding showcase images to form.
+        function add_showcase_images() {
+          // if more than one image has been selected
+          if(SELECTED_IMAGES.length > 0) {
+            // set form value to list of selected image names.
+            $("#showcase_files").val(SELECTED_IMAGES.join(","));
+            // set label value to number of images selected.
+            $("#showcase_label").html("Images selected: " + SELECTED_IMAGES.length);
+            // close modal.
+            $('#imageModal').modal('hide');
+          } else {
+            window.alert("Please select more than one image");
+          }
+        }
+        
+        // will add banner or showcase images depending on mode.
+        function on_add_images() {
+          if(adding_banner) {
+            add_banner_image();
+          } else {
+            add_showcase_images();
           }
         }
 		
