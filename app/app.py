@@ -81,6 +81,7 @@ class Entry(flask_db.Model):
     category = CharField()
     link_id = CharField()
     banner_id = CharField()
+    showcase_ids = CharField()
 
     @property
     def html_content(self):
@@ -251,6 +252,7 @@ def _create_or_edit(entry, template):
         entry.published = request.form.get('published') or False
         entry.link_id = request.form.get('ID') or ''
         entry.banner_id = request.form.get('banner_file') or ''
+        entry.showcase_ids = request.form.get('showcase_files') or ''
             
         if not (entry.title and entry.content and entry.category):
             flash('Title, Content & Category are required.', 'danger')
