@@ -22,6 +22,15 @@ class ImagesDB:
             self.cursor.execute('CREATE TABLE "Images" ("ID" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"title" TEXT NOT NULL,"caption" TEXT,"filename" TEXT NOT NULL)')
             print("Created new database at '{}'.".format(self.DATABASE_PATH))
 
+        #Check that each folder for the images exists,
+        #and create then if they do not
+        if not os.path.exists(self.IMAGE_PATH):
+            os.makedirs(self.IMAGE_PATH)
+        if not os.path.exists(self.THUMBNAIL_PATH):
+            os.makedirs(self.THUMBNAIL_PATH)
+        if not os.path.exists(self.THUMBNAIL_PATH_LG):
+            os.makedirs(self.THUMBNAIL_PATH_LG)
+
         #Commit and return
         self.connection.commit()
         print("Loaded Images database.")
