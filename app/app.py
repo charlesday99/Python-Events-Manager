@@ -110,11 +110,6 @@ class Entry(flask_db.Model):
         self.update_search_index()
         return ret
 
-    def delete(self):
-        ret = super(Entry, self).delete_instance()
-        self.update_search_index()
-        return ret
-
     def update_search_index(self):
         # Create a row in the FTSEntry table with the post content. This will
         # allow us to use SQLite's awesome full-text search extension to
@@ -302,33 +297,45 @@ def drafts():
 
 @app.route('/p/<slug>/')
 def detail(slug):
+
+    
     if session.get('logged_in'):
         query = Entry.select()
     else:
         query = Entry.public()
     entry = get_object_or_404(query, Entry.slug == slug)
 
+    banner_path = None # post's banner path.
+    showcase_info = [] # post's showcase (gallery) info.
+
     # Obtain path for banner image.
-    banner_path = None
     if entry.banner_id:
         try:
             banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
             banner_path = banner_path.split("static")[1]
         except:
             print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
-    
-    return render_template('detail.html', entry=entry, banner_path=banner_path)
 
-@app.route('/p/<slug>/edit/', methods=['GET', 'POST','DELETE'])
+    # Obtain paths and info for showcase images.
+    if entry.showcase_ids:
+        for image_name in entry.showcase_ids.split(","):
+            # get additional image information from DB.
+            data = ImageDB.getImage(image_name)
+            # obtain full image path.
+            path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, image_name))[0]
+            path = path.split("static")[1]
+            # add additional info and path to dict for rendering.
+            dict_data = {'id':data[0],'title':data[1],'caption':data[2],'path':path}
+            showcase_info.append(dict_data)
+    
+    return render_template('detail.html', banner_path=banner_path,
+                           showcase_info=showcase_info, entry=entry)
+
+@app.route('/p/<slug>/edit/', methods=['GET', 'POST'])
 @login_required
 def edit(slug):
     entry = get_object_or_404(Entry, Entry.slug == slug)
-    if request.method == 'DELETE':
-        with database.atomic():
-            print(entry.delete())
-        return redirect(url_for('index'))
-    else:
-        return _create_or_edit(entry, 'edit.html')
+    return _create_or_edit(entry, 'edit.html')
 
 @app.template_filter('clean_querystring')
 def clean_querystring(request_args, *keys_to_remove, **new_values):

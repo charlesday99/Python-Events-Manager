@@ -15,6 +15,18 @@
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
   {{ entry.html_content }}
 
+  <h3 class="content-title">Gallery</h3>
+  
+  <div class="row">
+  {% for image_dict in showcase_info %}
+      <div class="col-lg-3 col-md-6 text-center">
+        <div class="image-container">
+          <img class="proj-img" src="{{ image_dict['path'] }}" alt="image_dict['title']">
+        </div>
+      </div>
+	{% endfor %}
+  </div>
+
   {% if entry.link_id|length %}
     <button class="btn site-btn" onclick="window.location.href='/link/{{ entry.link_id }}'">Click here!</button>
   {% endif %}
