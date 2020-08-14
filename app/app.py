@@ -72,6 +72,13 @@ THUMBNAIL_PATH_LG = os.path.join(APP_DIR,"static","content","thumbnails_lg")
 # Categories (should probably store these in db).
 categories = ["art", "history", "outdoor", "food"]
 
+##class Entry_images(flask_db.Model):
+##    entry_id = ForeignKeyField()
+##    image_id = ForeignKeyField()
+##
+##    class Meta:
+##        database = database
+
 class Entry(flask_db.Model):
     title = CharField()
     slug = CharField(unique=True)
@@ -82,6 +89,9 @@ class Entry(flask_db.Model):
     link_id = CharField()
     banner_id = CharField()
     showcase_ids = CharField()
+
+    class Meta:
+        database = database
 
     @property
     def html_content(self):
@@ -515,6 +525,10 @@ def link_manager():
 
 #Start point
 if __name__ == "__main__":
+    
+    with database.connection_context():
+        database.create_tables([Entry, FTSEntry])
+        
     http_server = WSGIServer(('0.0.0.0', 80), app)
     print("Loaded as HTTP Server on port 80, running forever:")
     http_server.serve_forever()
