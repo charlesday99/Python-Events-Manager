@@ -15,7 +15,7 @@
   <p>Created {{ entry.timestamp.strftime('%m/%d/%Y at %I:%M%p') }}</p>
   {{ entry.html_content }}
 
-  <h3 class="content-title">Gallery</h3>
+  {% if showcase_info %} <h3 class="content-title">Gallery</h3> {% endif %}
   
   <div class="row">
   {% for image_dict in showcase_info %}
