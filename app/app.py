@@ -302,10 +302,13 @@ def detail(slug):
     entry = get_object_or_404(query, Entry.slug == slug)
 
     # Obtain path for banner image.
-    banner_path = None;
+    banner_path = None
     if entry.banner_id:
-        banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
-        banner_path = banner_path.split("static")[1]
+        try:
+            banner_path = glob.glob(os.path.join(IMAGE_PATH, entry.banner_id))[0]
+            banner_path = banner_path.split("static")[1]
+        except:
+            print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
     
     return render_template('detail.html', entry=entry, banner_path=banner_path)
 
@@ -388,7 +391,7 @@ def image_api(name):
             
             # Delete banner from entries with 
             for entry in Entry.select().where(Entry.banner_id == name):
-                entry.banner_id = "";
+                entry.banner_id = ""
                 with database.atomic():
                     entry.save()
                     

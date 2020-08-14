@@ -4,14 +4,14 @@
 
 {% block description %}Post results page.{% endblock %}
 
-{% block content_title %}{% if category %} {{ category }} {% elif search %}Results for "{{ search }}"{% else %}Events{% endif %}{% endblock %}
+{% block content_title %}{% if category %} {{ category }} {% elif search %}Results for "{{ search }}"{% else %}Posts{% endif %}{% endblock %}
 
 {% block content %}
   <div class="container">
     <div class="row">
       {% for entry in object_list %}
       <div class="col-lg-4 col-md-6 text-center">
-        <h5 class="proj-title"><a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}">{{ entry.title }}</a></h5>
+        <h5 class="proj-title"><a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}" alt="{{ entry.title }} page.">{{ entry.title }}</a></h5>
         <div class="image-container">
           {% if entry.banner_id %}
           <img class="proj-img" src="{{ banner_images[entry.banner_id] }}" alt="{{ entry.title }} thumbnail.">
