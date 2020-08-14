@@ -19,14 +19,16 @@
 
   {% if showcase_info %} <h3 class="content-title">Gallery</h3> {% endif %}
   
-  <div class="row">
-  {% for image_dict in showcase_info %}
-      <div class="col-6 col-md-4 col-lg-3 text-center">
-        <div class="image-container">
-          <img class="proj-img showcase_img" src="{{ image_dict['path'] }}" alt="{{ image_dict['title'] }}">
+  <div class="container">
+    <div class="row">
+    {% for image_dict in showcase_info %}
+        <div class="col-6 col-md-4 col-lg-3 text-center">
+          <div class="image-container">
+            <img class="proj-img showcase_img" src="{{ image_dict['path'] }}" alt="{{ image_dict['title'] }}">
+          </div>
         </div>
-      </div>
-	{% endfor %}
+    {% endfor %}
+    </div>
   </div>
 
   <div id="imageModal" class="gallery_modal">
@@ -44,6 +46,7 @@
     <button class="btn site-btn" onclick="window.location.href='{{ url_for('edit', slug=entry.slug) }}'">Edit Post</button>
     <button class="btn site-btn" onclick="deletePost('{{ entry.slug }}');">Delete Post</button>
   {% endif %}
+
 {% endblock %}
 
 {% block final_scripts %}
@@ -64,7 +67,6 @@
   var captionText = document.getElementById("caption");
 
   for(var i = 0; i < gallery_images.length; i++) {
-    
     gallery_images[i].onclick = function() {
       modal.style.display = "block";
       modalImg.src = this.src;
