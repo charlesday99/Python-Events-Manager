@@ -4,6 +4,8 @@
 
 {% block description %}{{ entry.title }} page.{% endblock %}
 
+{% block extra_head %}<link href="/css/showcase.css" rel="stylesheet">{% endblock %}
+
 {% block content %}
   
   {% if entry.banner_id %}
