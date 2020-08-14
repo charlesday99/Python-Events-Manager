@@ -477,7 +477,9 @@ def link_api_reset(ID):
 @app.route('/link/new', methods=['POST'])
 @login_required
 def link_post():
-    LinkDB.createLink(request.form['URL'])
+    data = request.form['URL']
+    if data is not '':
+        LinkDB.createLink(request.form['URL'])
     return redirect(url_for('link_manager'))
 
 #Create new link
