@@ -72,14 +72,8 @@ THUMBNAIL_PATH_LG = os.path.join(APP_DIR,"static","content","thumbnails_lg")
 # Categories (should probably store these in db).
 categories = ["art", "history", "outdoor", "food"]
 
-##class Entry_images(flask_db.Model):
-##    entry_id = ForeignKeyField()
-##    image_id = ForeignKeyField()
-##
-##    class Meta:
-##        database = database
-
 class Entry(flask_db.Model):
+    entry_id = AutoField()
     title = CharField()
     slug = CharField(unique=True)
     content = TextField()
@@ -88,7 +82,6 @@ class Entry(flask_db.Model):
     category = CharField()
     link_id = CharField()
     banner_id = CharField()
-    showcase_ids = CharField()
 
     class Meta:
         database = database
@@ -262,7 +255,6 @@ def _create_or_edit(entry, template):
         entry.published = request.form.get('published') or False
         entry.link_id = request.form.get('ID') or ''
         entry.banner_id = request.form.get('banner_file') or ''
-        entry.showcase_ids = request.form.get('showcase_files') or ''
             
         if not (entry.title and entry.content and entry.category):
             flash('Title, Content & Category are required.', 'danger')
@@ -275,7 +267,18 @@ def _create_or_edit(entry, template):
             except IntegrityError:
                 flash('Error: this title is already in use.', 'danger')
             else:
+                
                 flash('Entry saved successfully.', 'success')
+
+                # If added showcase files, commit these to image db.
+                image_files = request.form.get('showcase_files') or ''
+                if image_files:
+                    image_files = image_files.split("\t")
+                    for filename in image_files:
+                        image_id = ImageDB.getImage(filename)[0]
+                        print("image id: " + str(image_id) + ", entry id: " + str(entry.entry_id))
+                        ImageDB.addShowcaseImage(entry.entry_id, image_id)
+                        
                 if entry.published:
                     return redirect(url_for('detail', slug=entry.slug))
                 else:
@@ -308,7 +311,6 @@ def drafts():
 @app.route('/p/<slug>/')
 def detail(slug):
 
-    
     if session.get('logged_in'):
         query = Entry.select()
     else:
@@ -326,17 +328,17 @@ def detail(slug):
         except:
             print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
 
-    # Obtain paths and info for showcase images.
-    if entry.showcase_ids:
-        for image_name in entry.showcase_ids.split(","):
-            # get additional image information from DB.
-            data = ImageDB.getImage(image_name)
-            # obtain full image path.
-            path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, image_name))[0]
-            path = path.split("static")[1]
-            # add additional info and path to dict for rendering.
-            dict_data = {'id':data[0],'title':data[1],'caption':data[2],'path':path}
-            showcase_info.append(dict_data)
+##    # Obtain paths and info for showcase images.
+##    if entry.showcase_ids:
+##        for image_name in entry.showcase_ids.split(","):
+##            # get additional image information from DB.
+##            data = ImageDB.getImage(image_name)
+##            # obtain full image path.
+##            path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, image_name))[0]
+##            path = path.split("static")[1]
+##            # add additional info and path to dict for rendering.
+##            dict_data = {'id':data[0],'title':data[1],'caption':data[2],'path':path}
+##            showcase_info.append(dict_data)
     
     return render_template('detail.html', banner_path=banner_path,
                            showcase_info=showcase_info, entry=entry)

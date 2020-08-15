@@ -20,6 +20,7 @@ class ImagesDB:
         #Checks if the table exists and creates one if needed
         if self.cursor.execute('SELECT tbl_name FROM "main".sqlite_master;').fetchone() == None:
             self.cursor.execute('CREATE TABLE "Images" ("ID" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"title" TEXT NOT NULL,"caption" TEXT,"filename" TEXT NOT NULL)')
+            self.cursor.execute('CREATE TABLE "Entry_Images" ("ID" INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,"entry_id" INTEGER NOT NULL,"image_id" INTEGER NOT NULL)')
             print("Created new database at '{}'.".format(self.DATABASE_PATH))
 
         #Check that each folder for the images exists,
@@ -88,6 +89,16 @@ class ImagesDB:
     def dump(self):
         self.cursor.execute("SELECT * FROM Images;")
         return self.cursor.fetchall()
+
+    #Adds relationship between images and entries for gallery.
+    def addShowcaseImage(self, entry_id, image_id):
+        self.cursor.execute("INSERT INTO Entry_Images VALUES (NULL,?,?)",(entry_id, image_id))
+        self.connection.commit()
+        return "hello"
+
+    #Deletes relationship between images and entries for gallery.
+    def addShowcaseImage(self, entry_id, image_id):
+        pass
 
     #Destructor closes DB connection
     def __del__(self):
