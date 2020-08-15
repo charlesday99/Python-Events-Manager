@@ -328,17 +328,16 @@ def detail(slug):
         except:
             print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
 
-##    # Obtain paths and info for showcase images.
-##    if entry.showcase_ids:
-##        for image_name in entry.showcase_ids.split(","):
-##            # get additional image information from DB.
-##            data = ImageDB.getImage(image_name)
-##            # obtain full image path.
-##            path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, image_name))[0]
-##            path = path.split("static")[1]
-##            # add additional info and path to dict for rendering.
-##            dict_data = {'id':data[0],'title':data[1],'caption':data[2],'path':path}
-##            showcase_info.append(dict_data)
+    # Get showcase images for post if any.
+    showcase_record = ImageDB.getShowcaseImages(entry.entry_id)
+    print(showcase_record)
+##    for record in showcase_record:
+##        # get additional image 
+##        data = ImageDB.getImage(record[0])
+##        path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, data[3]))[0]
+##        path = path.split("static")[1]
+##        dict_data = {'id':data[0],'title':data[1],'caption':data[2],'path':path}
+##        showcase_info.append(dict_data)
     
     return render_template('detail.html', banner_path=banner_path,
                            showcase_info=showcase_info, entry=entry)

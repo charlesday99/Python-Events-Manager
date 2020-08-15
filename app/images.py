@@ -94,10 +94,15 @@ class ImagesDB:
     def addShowcaseImage(self, entry_id, image_id):
         self.cursor.execute("INSERT INTO Entry_Images VALUES (NULL,?,?)",(entry_id, image_id))
         self.connection.commit()
-        return "hello"
+
+    #Get all Images associated with entry.
+    def getShowcaseImages(self, entry_id):
+        self.cursor.execute("""SELECT Images.title, Images.caption, Images.filename FROM Images INNER JOIN
+        Entry_Images ON Images.ID = Entry_Images.image_id WHERE entry_id = ?;""",(entry_id,))
+        return self.cursor.fetchall()
 
     #Deletes relationship between images and entries for gallery.
-    def addShowcaseImage(self, entry_id, image_id):
+    def deleteShowcaseImage(self, entry_id, image_id):
         pass
 
     #Destructor closes DB connection
