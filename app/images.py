@@ -74,10 +74,14 @@ class ImagesDB:
 
     #Delete an Image by its filename
     def deleteImage(self, filename):
-        self.deleteShowcaseImage(filename)
+        # Remove image files from directories.
         os.remove(os.path.join(self.IMAGE_PATH,filename))
         os.remove(os.path.join(self.THUMBNAIL_PATH,filename))
         os.remove(os.path.join(self.THUMBNAIL_PATH_LG,filename))
+        # Delete any possible associations to entries as gallery image.
+        self.cursor.execute("""DELETE FROM Entry_Images WHERE image_id IN (SELECT image_id FROM Entry_Images
+        INNER JOIN Images ON Entry_Images.image_id = Images.ID WHERE filename = ?);""",(filename,))
+        # Delete from image table.
         self.cursor.execute("DELETE FROM Images WHERE filename = ?;",(filename,))
         self.connection.commit()
 
@@ -91,10 +95,10 @@ class ImagesDB:
         self.cursor.execute("SELECT * FROM Images;")
         return self.cursor.fetchall()
 
-    #Adds relationship between images and entries for gallery.
-    def addShowcaseImage(self, entry_id, image_id):
-        self.cursor.execute("INSERT INTO Entry_Images VALUES (NULL,?,?)",(entry_id, image_id))
-        self.connection.commit()
+    #Check if entry has showcase image.
+    def hasShowcaseImage(self, entry_id, image_id):
+        self.cursor.execute("SELECT * FROM Entry_Images WHERE entry_id = ? AND  image_id = ?;",(entry_id, image_id))
+        return self.cursor.fetchone() is not None
 
     #Get all Images associated with entry.
     def getShowcaseImages(self, entry_id):
@@ -102,10 +106,17 @@ class ImagesDB:
         Entry_Images ON Images.ID = Entry_Images.image_id WHERE entry_id = ?;""",(entry_id,))
         return self.cursor.fetchall()
 
+    #Adds relationship between images and entries for gallery.
+    def addShowcaseImage(self, entry_id, image_id):
+        if (not self.hasShowcaseImage(entry_id, image_id)):
+            self.cursor.execute("INSERT INTO Entry_Images VALUES (NULL,?,?)",(entry_id, image_id))
+            self.connection.commit()
+        else:
+            print("Already exists!")
+
     #Deletes relationship between images and entries for gallery.
-    def deleteShowcaseImage(self, filename):
-        self.cursor.execute("""DELETE FROM Entry_Images WHERE image_id IN (SELECT image_id FROM Entry_Images
-        INNER JOIN Images ON Entry_Images.image_id = Images.ID WHERE filename = ?);""",(filename,))
+    def deleteShowcaseImage(self, entry_id, image_id):
+        self.cursor.execute("DELETE FROM Entry_Images WHERE entry_id = ? AND image_id = ?;",(entry_id, image_id))
         self.connection.commit()
 
     #Destructor closes DB connection

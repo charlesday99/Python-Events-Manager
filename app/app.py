@@ -224,7 +224,7 @@ def blog():
             banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
             banner_images[entry.banner_id] = banner_path.split("static")[1]
         except:
-            print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
+            flash("Failed to load banner image {} for {}".format(entry.banner_id,entry.title), 'danger')
 
     # The `object_list` helper will take a base query and then handle
     # paginating the results if there are more than 20. For more info see
@@ -246,51 +246,58 @@ def projects():
 def about():
     return render_template('about.html')
 
-
 def _create_or_edit(entry, template):
+    
     if request.method == 'POST':
+        
+        # Get required values from form elements.
         entry.title = request.form.get('title') or ''
         entry.content = request.form.get('content') or ''
         entry.category = request.form.get('category') or ''
         entry.published = request.form.get('published') or False
         entry.link_id = request.form.get('ID') or ''
         entry.banner_id = request.form.get('banner_file') or ''
-            
-        if not (entry.title and entry.content and entry.category):
+        image_files = request.form.get('showcase_files') or ''
+
+        # If title, content, or category fields are empty, display message.
+        if not (entry.title or entry.content or entry.category):
             flash('Title, Content & Category are required.', 'danger')
         else:
-            # Wrap the call to save in a transaction so we can roll it back
-            # cleanly in the event of an integrity error.
+            
+            # Attempt to save entry to database.
             try:
                 with database.atomic():
                     entry.save()
             except IntegrityError:
                 flash('Error: this title is already in use.', 'danger')
-            else:
                 
+            else:
+                # If added to database successfully, display success message.
                 flash('Entry saved successfully.', 'success')
-
                 # If added showcase files, commit these to image db.
-                image_files = request.form.get('showcase_files') or ''
                 if image_files:
                     image_files = image_files.split("\t")
                     for filename in image_files:
                         image_id = ImageDB.getImage(filename)[0]
-                        print("image id: " + str(image_id) + ", entry id: " + str(entry.entry_id))
                         ImageDB.addShowcaseImage(entry.entry_id, image_id)
-                        
+
+                # If entry is published, direct to post, otherwise direct to edit. 
                 if entry.published:
                     return redirect(url_for('detail', slug=entry.slug))
                 else:
                     return redirect(url_for('edit', slug=entry.slug))
 
-    #Find all the images in the thumbnails folder and pass
-    #the paths to the template
+
+    # If editing entry, place thumbnail images paths within dict for editing.
     images = {}
     for path in glob.glob(os.path.join(IMAGE_PATH,"thumbnails", "*.jpg")):
         images[path.split("thumbnails")[1][1:]] = path.split("static")[1]
+
+    # Get existing showcase image information for editing.
+    showcaseImages = ImageDB.getShowcaseImages(entry.entry_id)
+    showcaseImages = "\t".join([img[2] for img in showcaseImages])
         
-    return render_template(template, entry=entry, images=images)
+    return render_template(template, entry=entry, images=images, showcaseImages=showcaseImages)
 
 @app.route('/create/', methods=['GET', 'POST'])
 @login_required
@@ -326,11 +333,10 @@ def detail(slug):
             banner_path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, entry.banner_id))[0]
             banner_path = banner_path.split("static")[1]
         except:
-            print("Failed to load banner image {} for {}".format(entry.banner_id,entry.title))
+            print("\nFailed to load banner image {} for {}".format(entry.banner_id,entry.title))
 
     # Get showcase images for post if any.
     showcase_record = ImageDB.getShowcaseImages(entry.entry_id)
-    print("showcase record: " + str(showcase_record))
     for record in showcase_record:
         # get image path and additional information
         path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, record[2]))[0]
@@ -350,11 +356,7 @@ def edit(slug):
 
 @app.template_filter('clean_querystring')
 def clean_querystring(request_args, *keys_to_remove, **new_values):
-    # We'll use this template filter in the pagination include. This filter
-    # will take the current URL and allow us to preserve the arguments in the
-    # querystring while replacing any that we need to overwrite. For instance
-    # if your URL is /?q=search+query&page=2 and we want to preserve the search
-    # term but make a link to page 3, this filter will allow us to do that.
+    # We'll use this template filter in the pagination include.
     querystring = dict((key, value) for key, value in request_args.items())
     for key in keys_to_remove:
         querystring.pop(key, None)

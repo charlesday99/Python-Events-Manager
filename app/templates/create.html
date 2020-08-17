@@ -35,7 +35,7 @@
     <div class="form-group col-sm-10">
       <label >Add Banner Image</label>
       <div class="custom-file">
-        <input name="banner_file" type="text" value="{% if entry.banner_id %} {{ entry.banner_id }} {% endif %}" onclick="on_banner_click()" class="custom-file-input" id="banner_file" data-toggle="modal" data-target="#imageModal">
+        <input name="banner_file" type="text" value="{% if entry.banner_id %}{{ entry.banner_id }}{% endif %}" onclick="on_banner_click()" class="custom-file-input" id="banner_file" data-toggle="modal" data-target="#imageModal">
         <label class="custom-file-label" for="banner_file" id="banner_label">{{ entry.banner_id }}</label>
       </div>
     </div>
@@ -43,8 +43,8 @@
     <div class="form-group col-sm-10">
       <label >Add Showcase Images</label>
       <div class="custom-file">
-        <input name="showcase_files" type="text" value="{% if entry.showcase_ids %} {{ entry.showcase_ids }} {% endif %}" onclick="on_showcase_click()" class="custom-file-input" id="showcase_files" data-toggle="modal" data-target="#imageModal">
-        <label class="custom-file-label" for="showcase_files" id="showcase_label">{{ entry.showcase_ids }}</label>
+        <input name="showcase_files" type="text" value="{% if showcaseImages %}{{ showcaseImages }}{% endif %}" onclick="on_showcase_click()" class="custom-file-input" id="showcase_files" data-toggle="modal" data-target="#imageModal">
+        <label class="custom-file-label" for="showcase_files" id="showcase_label">{{ showcaseImages }}</label>
       </div>
     </div>
     
