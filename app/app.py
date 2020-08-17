@@ -330,14 +330,14 @@ def detail(slug):
 
     # Get showcase images for post if any.
     showcase_record = ImageDB.getShowcaseImages(entry.entry_id)
-    print(showcase_record)
-##    for record in showcase_record:
-##        # get additional image 
-##        data = ImageDB.getImage(record[0])
-##        path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, data[3]))[0]
-##        path = path.split("static")[1]
-##        dict_data = {'id':data[0],'title':data[1],'caption':data[2],'path':path}
-##        showcase_info.append(dict_data)
+    print("showcase record: " + str(showcase_record))
+    for record in showcase_record:
+        # get image path and additional information
+        path = glob.glob(os.path.join(THUMBNAIL_PATH_LG, record[2]))[0]
+        path = path.split("static")[1]
+        # put image information within dict entry 
+        dict_data = {'id':record[0],'title':record[1],'caption':record[2],'path':path}
+        showcase_info.append(dict_data)
     
     return render_template('detail.html', banner_path=banner_path,
                            showcase_info=showcase_info, entry=entry)

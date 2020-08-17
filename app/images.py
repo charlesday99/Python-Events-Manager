@@ -74,6 +74,7 @@ class ImagesDB:
 
     #Delete an Image by its filename
     def deleteImage(self, filename):
+        self.deleteShowcaseImage(filename)
         os.remove(os.path.join(self.IMAGE_PATH,filename))
         os.remove(os.path.join(self.THUMBNAIL_PATH,filename))
         os.remove(os.path.join(self.THUMBNAIL_PATH_LG,filename))
@@ -102,8 +103,10 @@ class ImagesDB:
         return self.cursor.fetchall()
 
     #Deletes relationship between images and entries for gallery.
-    def deleteShowcaseImage(self, entry_id, image_id):
-        pass
+    def deleteShowcaseImage(self, filename):
+        self.cursor.execute("""DELETE FROM Entry_Images WHERE image_id IN (SELECT image_id FROM Entry_Images
+        INNER JOIN Images ON Entry_Images.image_id = Images.ID WHERE filename = ?);""",(filename,))
+        self.connection.commit()
 
     #Destructor closes DB connection
     def __del__(self):
