@@ -274,7 +274,9 @@ def _create_or_edit(entry, template):
             else:
                 # If added to database successfully, display success message.
                 flash('Entry saved successfully.', 'success')
-                # If added showcase files, commit these to image db.
+                
+                # Wipe original showcase images. If new ones added, add those.
+                ImageDB.deleteShowcaseImages(entry.entry_id)
                 if image_files:
                     image_files = image_files.split("\t")
                     for filename in image_files:

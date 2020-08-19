@@ -108,15 +108,12 @@ class ImagesDB:
 
     #Adds relationship between images and entries for gallery.
     def addShowcaseImage(self, entry_id, image_id):
-        if (not self.hasShowcaseImage(entry_id, image_id)):
-            self.cursor.execute("INSERT INTO Entry_Images VALUES (NULL,?,?)",(entry_id, image_id))
-            self.connection.commit()
-        else:
-            print("Already exists!")
+        self.cursor.execute("INSERT INTO Entry_Images VALUES (NULL,?,?)",(entry_id, image_id))
+        self.connection.commit()
 
-    #Deletes relationship between images and entries for gallery.
-    def deleteShowcaseImage(self, entry_id, image_id):
-        self.cursor.execute("DELETE FROM Entry_Images WHERE entry_id = ? AND image_id = ?;",(entry_id, image_id))
+    #Deletes relationships between images and entries for gallery.
+    def deleteShowcaseImages(self, entry_id):
+        self.cursor.execute("DELETE FROM Entry_Images WHERE entry_id = ?;",(entry_id,))
         self.connection.commit()
 
     #Destructor closes DB connection
