@@ -297,8 +297,8 @@ def _create_or_edit(entry, template):
 
     # Get existing showcase image information for editing.
     showcaseImages = ImageDB.getShowcaseImages(entry.entry_id)
-    showcaseImages = "\t".join([img[2] for img in showcaseImages])
-        
+    showcaseImages = [img[2] for img in showcaseImages]
+
     return render_template(template, entry=entry, images=images, showcaseImages=showcaseImages)
 
 @app.route('/create/', methods=['GET', 'POST'])
