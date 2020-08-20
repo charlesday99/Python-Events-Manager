@@ -11,27 +11,27 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-4 col-md-6 text-center">
-        <h5 class="proj-title">Art</h5>
         <div class="image-container">
-          <img class="proj-img" src="/img/artCategory.jpg" alt="artCategory">
-          <div class="after fade-in">Find local artists and galleries</div>
-          <a href="{{ url_for('blog', q='art') }}" type="button" class="btn af-btn fade-in" alt="Show Art posts.">Go</a>
+          <a href="{{ url_for('blog', q='art') }}">
+            <img class="proj-img" src="/img/artCategory.jpg" alt="artCategory">
+            <p class="imageCaption">Art</p>
+          </a>
         </div>
       </div>
       <div class="col-lg-4 col-md-6 text-center">
-        <h5 class="proj-title">Food</h5>
         <div class="image-container">
-          <img class="proj-img" src="/img/foodCategory.jpg" alt="historyCategory">
-          <div class="after fade-in">Find a number of exciting restaurants, cafés, and pubs around the bay</div>
-          <a href="{{ url_for('blog', q='food') }}" type="button" class="btn af-btn fade-in" alt="Show food posts.">Go</a>
+          <a href="{{ url_for('blog', q='food') }}">
+            <img class="proj-img" src="/img/foodCategory.jpg" alt="foodCategory">
+            <p class="imageCaption">Food</p>
+          </a>
         </div>
       </div>
       <div class="col-lg-4 col-md-6 text-center">
-        <h5 class="proj-title">History</h5>
         <div class="image-container">
-          <img class="proj-img" src="/img/historyCategory.jpg" alt="outdoorCategory">
-          <div class="after fade-in">Find a range of historical attractions</div>
-          <a href="{{ url_for('blog', q='history') }}" type="button" class="btn af-btn fade-in" alt="Show History posts.">Go</a>
+          <a href="{{ url_for('blog', q='history') }}">
+            <img class="proj-img" src="/img/historyCategory.jpg" alt="historyCategory">
+            <p class="imageCaption">History</p>
+          </a>
         </div>
       </div>
     </div>

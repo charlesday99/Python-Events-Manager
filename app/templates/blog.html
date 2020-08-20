@@ -11,7 +11,6 @@
     <div class="row">
       {% for entry in object_list %}
       <div class="col-lg-4 col-md-6 text-center">
-        <h5 class="proj-title"><a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}" alt="{{ entry.title }} page.">{{ entry.title }}</a></h5>
         <div class="image-container">
           {% if entry.banner_id %}
           <img class="proj-img" src="{{ banner_images[entry.banner_id] }}" alt="{{ entry.title }} thumbnail.">
@@ -26,8 +25,7 @@
               <img class="proj-img" src="/img/placeholder.jpg" alt="{{ entry.title }} thumbnail.">
             {% endif %}
           {% endif %}
-          <div class="after fade-in"></div>
-          <a href="{% if entry.published %}{{ url_for('detail', slug=entry.slug) }}{% else %}{{ url_for('edit', slug=entry.slug) }}{% endif %}" type="button" class="btn af-btn fade-in">Go</a>
+          <p class="imageCaption">{{ entry.title }}</p>
         </div>
       </div>
       {% else %}
