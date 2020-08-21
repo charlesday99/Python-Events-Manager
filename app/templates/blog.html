@@ -12,6 +12,7 @@
       {% for entry in object_list %}
       <div class="col-lg-4 col-md-6 text-center">
         <div class="image-container">
+          <div class="gradient-overlay"></div>
           {% if entry.banner_id %}
           <img class="proj-img" src="{{ banner_images[entry.banner_id] }}" alt="{{ entry.title }} thumbnail.">
           {% else %}
@@ -25,7 +26,10 @@
               <img class="proj-img" src="/img/placeholder.jpg" alt="{{ entry.title }} thumbnail.">
             {% endif %}
           {% endif %}
-          <p class="imageCaption">{{ entry.title }}</p>
+          <div class="imageCaption">
+            <p style="font-size: 18px" class="imageCaptionTitle">{{ entry.title }}</p>
+            <p class="imageCaptionDesc">This is the posts description. This is the posts description.</p>
+          </div>
         </div>
       </div>
       {% else %}
